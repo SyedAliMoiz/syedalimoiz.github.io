@@ -1,8 +1,11 @@
 {
   "active_run": "2026-06-28-polish-and-elevate",
-  "stage": 1,
-  "stage_name": "research",
-  "awaiting": "reviewer",
-  "last_updated": "2026-06-28T04:00:00Z",
-  "history": []
+  "stage": 4,
+  "stage_name": "complete",
+  "awaiting": null,
+  "last_updated": "2026-06-28T05:00:00Z",
+  "history": [
+    {"stage": 1, "actor": "codex", "action": "reviewed brainstorm", "rating": "APPROVED"},
+    {"stage": 3, "actor": "claude", "action": "implemented in 3 commits (hinge+opening, cross-fade+cue, callback+polish)", "rating": "DONE"}
+  ]
 }
