@@ -264,6 +264,13 @@
        padding (not margin) so it ADDS to the section gap instead of collapsing into it. */
     .psec.close { padding-top: var(--space-xl); }
 
+    /* Centered-text discipline: balance every centered block so lines break into
+       even, deliberate phrases (no long-line-then-orphan). This is what makes
+       centered type read intentional rather than amateur. Degrades gracefully
+       (old browsers ignore the value and wrap normally). */
+    .hero-line, .lead, .bodytext, .punch, .close-line, .cta-head, .cta-sub,
+    .reveal, .proof-item p, .creds > div, .stat .cap { text-wrap: balance; }
+
     .hero-line {
       font-size: var(--step-1);
       line-height: 1.42;
