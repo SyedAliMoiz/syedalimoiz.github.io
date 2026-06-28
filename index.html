@@ -56,6 +56,7 @@
       text-align: center;
       user-select: none;
       -webkit-user-select: none;
+      transition: opacity 0.35s ease;
     }
 
     .beat {
@@ -190,6 +191,25 @@
       cursor: auto;
     }
     #page.hidden { display: none; }
+    #page { opacity: 0; transition: opacity 0.5s ease; }
+    #page.shown { opacity: 1; }
+
+    /* Quiet "scroll" cue on entering the page; fades on first scroll. */
+    #scrollcue {
+      position: fixed;
+      left: 50%;
+      bottom: max(1.4rem, env(safe-area-inset-bottom));
+      transform: translateX(-50%);
+      font-size: 0.74rem;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--muted);
+      z-index: 8;
+      pointer-events: none;
+      transition: opacity 0.5s ease;
+      animation: pulse 2.4s ease-in-out infinite;
+    }
+    #scrollcue.gone { opacity: 0; animation: none; }
 
     .page-inner {
       max-width: 34rem;
@@ -480,6 +500,7 @@
   <button id="back" class="hidden" aria-label="Go back" title="Go back">&#8249;</button>
   <div id="progress"></div>
   <div id="hint">tap to continue</div>
+  <div id="scrollcue" class="gone">scroll &#8595;</div>
 
   <script>
     (function () {
@@ -513,6 +534,7 @@
       var soundBtn = document.getElementById('sound');
       var backBtn = document.getElementById('back');
       var page = document.getElementById('page');
+      var scrollcue = document.getElementById('scrollcue');
       var mode = 'carousel'; // 'carousel' (story + reveal hinge) or 'page' (scroll)
       var i = 0;
       var busy = false;
@@ -657,23 +679,41 @@
         if (mode === 'page') return;
         mode = 'page';
         playTick(740);
-        if (!hint.classList.contains('gone')) hint.classList.add('gone');
-        document.body.classList.add('reading');
-        page.classList.remove('hidden');
-        page.scrollTop = 0;
-        var secs = page.querySelectorAll('.psec'); // reveal what's in view; IO does the rest
-        if (secs[0]) secs[0].classList.add('seen');
-        if (secs[1]) secs[1].classList.add('seen');
+        hint.classList.add('gone');
+        // opacity-only cross-fade: the carousel fades out, then the page fades in
+        stage.style.opacity = '0';
+        progress.style.opacity = '0';
+        setTimeout(function () {
+          document.body.classList.add('reading');
+          stage.style.opacity = '';
+          page.classList.remove('hidden');
+          void page.offsetWidth; // commit opacity:0 before fading in
+          page.classList.add('shown');
+          page.scrollTop = 0;
+          var secs = page.querySelectorAll('.psec'); // reveal what's in view; IO does the rest
+          if (secs[0]) secs[0].classList.add('seen');
+          if (secs[1]) secs[1].classList.add('seen');
+          scrollcue.classList.remove('gone');
+        }, 340);
       }
 
       function exitToCarousel() {
         if (mode !== 'page') return;
         mode = 'carousel';
         playTick(520);
-        document.body.classList.remove('reading');
-        page.classList.add('hidden');
+        scrollcue.classList.add('gone');
+        page.classList.remove('shown'); // fade the page out
+        setTimeout(function () {
+          document.body.classList.remove('reading');
+          page.classList.add('hidden');
+        }, 340);
         // we remain on the reveal hinge (the last carousel beat)
       }
+
+      // The scroll cue retires once the reader actually scrolls.
+      page.addEventListener('scroll', function () {
+        if (page.scrollTop > 24) scrollcue.classList.add('gone');
+      }, { passive: true });
 
       // Advance on tap/click anywhere except interactive controls; only in carousel mode.
       document.addEventListener('click', function (e) {
