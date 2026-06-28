@@ -51,6 +51,15 @@
       --step-3: clamp(1.944rem, 1.5281rem + 1.8486vw, 2.961rem);  /* 31.1 -> 47.4 */
       --step-4: clamp(2.3328rem, 1.6726rem + 2.9343vw, 3.9467rem);/* 37.3 -> 63.1 */
       --step-5: clamp(2.7994rem, 1.7924rem + 4.4755vw, 5.2609rem);/* display   44.8 -> 84.2 */
+      /* Fluid spacing scale (same method, 8pt-anchored to the body base) for a
+         composed vertical rhythm instead of flat vh gaps. */
+      --space-s:   clamp(1.125rem, 1.0739rem + 0.2273vw, 1.25rem);  /* 18 -> 20 */
+      --space-m:   clamp(1.688rem, 1.6108rem + 0.3409vw, 1.875rem); /* 27 -> 30 */
+      --space-l:   clamp(2.25rem, 2.1477rem + 0.4545vw, 2.5rem);    /* 36 -> 40 */
+      --space-xl:  clamp(3.375rem, 3.2216rem + 0.6818vw, 3.75rem);  /* 54 -> 60 */
+      --space-2xl: clamp(4.5rem, 4.2955rem + 0.9091vw, 5rem);       /* 72 -> 80 */
+      --space-3xl: clamp(6.75rem, 6.4432rem + 1.3636vw, 7.5rem);    /* 108 -> 120 */
+      --space-section: clamp(4.5rem, 3.2727rem + 5.4545vw, 7.5rem); /* section rhythm 72 -> 120 (controlled vs old 15vh) */
     }
 
     * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -246,11 +255,14 @@
     .page-inner {
       max-width: 34rem;
       margin: 0 auto;
-      padding: 16vh 1.6rem 18vh;
+      padding: var(--space-3xl) var(--space-m);
       text-align: center;
     }
-    .psec { margin-bottom: 15vh; }
+    .psec { margin-bottom: var(--space-section); }
     .psec:last-child { margin-bottom: 0; }
+    /* Intentional rhythm: a deliberate breath before the emotional close + CTA.
+       padding (not margin) so it ADDS to the section gap instead of collapsing into it. */
+    .psec.close { padding-top: var(--space-xl); }
 
     .hero-line {
       font-size: var(--step-1);
