@@ -8,6 +8,8 @@
   <meta property="og:type" content="website" />
   <meta property="og:title" content="Ali Moiz — the boy in the story" />
   <meta property="og:description" content="A copywriter and ghostwriter who spent years making other people heard. This is him, falling on purpose for the first time." />
+  <meta name="theme-color" content="#0a0a0a" />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%230a0a0a'/%3E%3Ccircle cx='16' cy='21' r='2.6' fill='%23f4f1ea'/%3E%3C/svg%3E" />
   <style>
     /* Fraunces (Latin subset, variable) embedded as a data URI: zero external requests. */
     @font-face {
@@ -211,6 +213,13 @@
     }
     #scrollcue.gone { opacity: 0; animation: none; }
 
+    /* Visible keyboard focus for the controls and links. */
+    a:focus-visible, button:focus-visible {
+      outline: 2px solid var(--fg);
+      outline-offset: 3px;
+      border-radius: 4px;
+    }
+
     .page-inner {
       max-width: 34rem;
       margin: 0 auto;
@@ -293,7 +302,15 @@
       margin-bottom: 0.6em;
     }
     .close-line.accent { color: var(--fg); }
-    .close .cta-head { margin-top: 1em; }
+    /* Typographic callback: the closing line is set in the same restrained serif
+       voice as the opening "Once upon a time", so the piece is bookended by the
+       same hand rather than ending on a loud marketing shout. */
+    .close .cta-head {
+      margin-top: 1.1em;
+      font-size: clamp(1.6rem, 5.2vw, 2.55rem);
+      font-weight: 500;
+      letter-spacing: -0.01em;
+    }
 
     /* gentle scroll-reveal, progressive enhancement (only when JS adds .js) */
     #page.js .psec { opacity: 0; transform: translateY(22px); transition: opacity 0.7s ease, transform 0.7s ease; }
@@ -428,6 +445,8 @@
       <p>As the boy grew older, his spirit grew smaller. He became so afraid of falling that he hid the stories he wrote and the poems he scribbled.</p>
       <p>So he did the brave thing. If he couldn't step into the light, he would carry others into it. He took the words of founders and CEOs and made them heard. Once, he told a story that 3.7 million people stopped to read.</p>
       <p>Hello. My name is Ali, and I'm the boy in the story. I grew up to be a copywriter and ghostwriter. This page is the first time I've done it for myself.</p>
+      <p>The proof: a US financial newsletter pitch I wrote converted at 40 percent. Founders and companies earned more than $215,000 from my words. A therapist read what I'd written about her work and cried, because it was a clearer version of her own voice.</p>
+      <p>The rest: 9M+ views written, a story 3.7M people stopped to read, 1,750% follower growth. Psychology, IBA Karachi, Dean's List five semesters, thesis 93/100, a perfect 9 on IELTS listening, creative writing A, certified in AI prompting by Vanderbilt and IBM.</p>
       <p>If you've got something to say and you think nobody can hear you, reach out. Let's get your voice heard. Say hi: <a href="mailto:syedalimoiz@gmail.com">syedalimoiz@gmail.com</a> or <a href="https://linkedin.com/in/syedalimoiz">LinkedIn</a>.</p>
     </div>
   </noscript>
