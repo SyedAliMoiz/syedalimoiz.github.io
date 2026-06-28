@@ -1,0 +1,41 @@
+{
+  "version": "3.0",
+  "roles": {
+    "writer": "claude",
+    "reviewer": "codex"
+  },
+  "limits": {
+    "max_iterations_per_stage": 5,
+    "max_questions_per_agent": 3,
+    "max_scope_changes": 2,
+    "escalate_after_stalemate": true
+  },
+  "stages": [
+    { "id": 0, "name": "context", "description": "Gather goal and clarifying questions" },
+    { "id": 1, "name": "research", "description": "Analyze codebase and constraints" },
+    { "id": 2, "name": "planning", "description": "Design approach, get consensus, then user approval" },
+    { "id": 3, "name": "implementation", "description": "Execute the plan" },
+    { "id": 4, "name": "complete", "description": "Done" }
+  ],
+  "ratings": ["APPROVED", "NEEDS WORK"],
+  "files": {
+    "required_per_run": [
+      "run.md",
+      "context.md",
+      "questions.md",
+      "answers.md",
+      "state.json"
+    ],
+    "gated": {
+      "research-final.md": "Only after research-vN APPROVED",
+      "plan-final.md": "Only after plan-vN APPROVED (created for user review, BEFORE execute)"
+    }
+  },
+  "codex_invoke": {
+    "command": "codex exec",
+    "model": "gpt-5.2-codex",
+    "reasoning_effort": "high",
+    "sandbox": "workspace-write",
+    "project_dir": "/home/syedalimoiz/AI-Projects/ace"
+  }
+}

@@ -1,0 +1,11 @@
+{
+  "active_run": "2026-06-28-improve-story-portfolio",
+  "stage": 2,
+  "stage_name": "planning",
+  "awaiting": "reviewer",
+  "last_updated": "2026-06-28T02:00:00Z",
+  "history": [
+    {"stage": 0, "actor": "user", "action": "answered", "rating": "APPROVED", "timestamp": "2026-06-28T00:30:00Z"},
+    {"stage": 1, "actor": "codex", "action": "reviewed", "rating": "NEEDS WORK->revised", "timestamp": "2026-06-28T01:30:00Z"}
+  ]
+}
