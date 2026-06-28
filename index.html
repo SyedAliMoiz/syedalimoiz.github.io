@@ -61,6 +61,7 @@
       background: var(--bg);
       color: var(--fg);
       font-family: 'Fraunces', Georgia, 'Times New Roman', serif;
+      font-optical-sizing: auto; /* Fraunces opsz axis tracks font-size: display cut on big type, text cut on body */
       min-height: 100dvh;
       display: flex;
       align-items: center;
@@ -101,6 +102,7 @@
       font-size: clamp(1.7rem, 1.2091rem + 2.1818vw, 2.9rem);
       font-weight: 500;
       line-height: 1.3;
+      letter-spacing: -0.015em; /* the hinge headline — tighten like a display line */
     }
 
     /* ---- Signature beats: motion lives on the inner wrapper, driven by the outer
@@ -260,6 +262,8 @@
       color: var(--fg);
       font-weight: 500;
       font-size: var(--step-3);
+      line-height: 1.12;        /* tighter leading for a display headline (was inheriting 1.42) */
+      letter-spacing: -0.015em; /* negative tracking, 32-48px band */
       margin-top: 0.5em;
       margin-bottom: 0;
     }
@@ -274,7 +278,8 @@
 
     .lead {
       font-size: var(--step-2);
-      line-height: 1.45;
+      line-height: 1.3;          /* tightened from 1.45 — deliberate display lead */
+      letter-spacing: -0.01em;   /* 24-32px band */
       margin-bottom: 0.7em;
     }
     .bodytext {
@@ -293,7 +298,7 @@
       display: block;
       font-size: var(--step-4);
       font-weight: 500;
-      letter-spacing: -0.02em;
+      letter-spacing: -0.025em; /* tight numeral tracking, display band */
       line-height: 1;
       margin-bottom: 0.25em;
       color: var(--fg);
@@ -301,6 +306,7 @@
     .proof-num.quiet {
       font-size: var(--step-2);
       font-style: italic;
+      letter-spacing: -0.01em; /* italic needs less negative tracking than the loud numerals */
       color: var(--muted);
     }
     .proof-item p {
@@ -313,7 +319,8 @@
     .punch {
       font-size: var(--step-2);
       font-weight: 500;
-      line-height: 1.4;
+      line-height: 1.2;         /* tightened from 1.4 — punchy 2-line statement */
+      letter-spacing: -0.01em;
     }
 
     .close-line {
@@ -330,7 +337,8 @@
       margin-top: 1.1em;
       font-size: var(--step-3);
       font-weight: 500;
-      letter-spacing: -0.01em;
+      line-height: 1.1;
+      letter-spacing: -0.015em; /* display headline band */
     }
 
     /* gentle scroll-reveal, progressive enhancement (only when JS adds .js) */
