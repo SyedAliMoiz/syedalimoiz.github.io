@@ -197,6 +197,54 @@
     }
     #invert:hover { border-color: var(--fg); transform: rotate(180deg); }
 
+    /* Sound toggle (off by default = dim), sits left of the invert control. */
+    #sound {
+      position: fixed;
+      top: max(1rem, env(safe-area-inset-top));
+      right: calc(max(1rem, env(safe-area-inset-right)) + 3rem);
+      width: 2.4rem;
+      height: 2.4rem;
+      border-radius: 50%;
+      border: 1px solid var(--line);
+      background: transparent;
+      color: var(--fg);
+      font-size: 1rem;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 20;
+      opacity: 0.4;
+      transition: border-color 0.2s ease, opacity 0.2s ease;
+      font-family: inherit;
+    }
+    #sound.on { opacity: 1; border-color: var(--fg); }
+    #sound:hover { border-color: var(--fg); }
+
+    /* Back control, bottom-left, hidden on the first screen. */
+    #back {
+      position: fixed;
+      bottom: max(1rem, env(safe-area-inset-bottom));
+      left: max(1rem, env(safe-area-inset-left));
+      width: 2.4rem;
+      height: 2.4rem;
+      border-radius: 50%;
+      border: 1px solid var(--line);
+      background: transparent;
+      color: var(--fg);
+      font-size: 1.3rem;
+      line-height: 1;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 20;
+      transition: border-color 0.2s ease, opacity 0.35s ease;
+      font-family: inherit;
+    }
+    #back:hover { border-color: var(--fg); }
+    #back.hidden { opacity: 0; pointer-events: none; }
+
     #progress {
       position: fixed;
       left: 0; bottom: 0;
@@ -262,6 +310,8 @@
   <main id="stage" aria-live="polite"></main>
 
   <button id="invert" aria-label="Invert colours" title="Invert colours">&#9680;</button>
+  <button id="sound" aria-label="Toggle sound" title="Toggle sound">&#9834;</button>
+  <button id="back" class="hidden" aria-label="Go back" title="Go back">&#8249;</button>
   <div id="progress"></div>
   <div id="hint">tap to continue</div>
 
@@ -310,8 +360,49 @@
       var progress = document.getElementById('progress');
       var hint = document.getElementById('hint');
       var invertBtn = document.getElementById('invert');
+      var soundBtn = document.getElementById('sound');
+      var backBtn = document.getElementById('back');
       var i = 0;
       var busy = false;
+
+      // ---- Optional sound: a soft synthesized tick on each move. No audio files,
+      //      off by default, only ever started by a user gesture (the toggle). ----
+      var soundOn = false;
+      var actx = null;
+      function ensureCtx() {
+        if (!actx) { try { actx = new (window.AudioContext || window.webkitAudioContext)(); } catch (e) { actx = null; } }
+        if (actx && actx.state === 'suspended') { try { actx.resume(); } catch (e) {} }
+        return actx;
+      }
+      function playTick(freq) {
+        if (!soundOn) return;
+        var ctx = ensureCtx();
+        if (!ctx) return;
+        try {
+          var now = ctx.currentTime;
+          var osc = ctx.createOscillator();
+          var gain = ctx.createGain();
+          osc.type = 'sine';
+          osc.frequency.value = freq || 660;
+          gain.gain.setValueAtTime(0.0001, now);
+          gain.gain.linearRampToValueAtTime(0.06, now + 0.005);
+          gain.gain.exponentialRampToValueAtTime(0.0001, now + 0.14);
+          osc.connect(gain); gain.connect(ctx.destination);
+          osc.start(now); osc.stop(now + 0.16);
+        } catch (e) {}
+      }
+      function applySound(on) {
+        soundOn = on;
+        soundBtn.classList.toggle('on', on);
+        soundBtn.innerHTML = on ? '&#9835;' : '&#9834;';
+      }
+      try { applySound(localStorage.getItem('sound') === 'on'); } catch (e) {}
+      soundBtn.addEventListener('click', function (e) {
+        e.stopPropagation();
+        applySound(!soundOn);
+        try { localStorage.setItem('sound', soundOn ? 'on' : 'off'); } catch (e2) {}
+        if (soundOn) { ensureCtx(); playTick(); }
+      });
 
       function esc(s) {
         return s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
@@ -359,11 +450,13 @@
         void el.offsetWidth;
         el.classList.add('in');
         progress.style.width = ((idx + 1) / beats.length * 100) + '%';
+        backBtn.classList.toggle('hidden', idx === 0);
       }
 
       function next() {
         if (busy || i >= beats.length - 1) return;
         busy = true;
+        playTick(660);
         if (!hint.classList.contains('gone')) hint.classList.add('gone');
         var cur = stage.firstChild;
         if (cur) { cur.classList.remove('in'); }
@@ -377,6 +470,7 @@
       function prev() {
         if (busy || i <= 0) return;
         busy = true;
+        playTick(520);
         var cur = stage.firstChild;
         if (cur) { cur.classList.remove('in'); }
         setTimeout(function () {
@@ -386,11 +480,15 @@
         }, 280);
       }
 
-      // Advance on tap/click anywhere except interactive elements.
+      // Advance on tap/click anywhere except interactive controls.
       document.addEventListener('click', function (e) {
-        if (e.target.closest('a') || e.target.closest('#invert')) return;
+        if (e.target.closest('a') || e.target.closest('#invert') ||
+            e.target.closest('#sound') || e.target.closest('#back')) return;
         next();
       });
+
+      // Back control.
+      backBtn.addEventListener('click', function (e) { e.stopPropagation(); prev(); });
 
       // Keyboard.
       window.addEventListener('keydown', function (e) {
