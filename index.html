@@ -59,7 +59,7 @@
       --space-xl:  clamp(3.375rem, 3.2216rem + 0.6818vw, 3.75rem);  /* 54 -> 60 */
       --space-2xl: clamp(4.5rem, 4.2955rem + 0.9091vw, 5rem);       /* 72 -> 80 */
       --space-3xl: clamp(6.75rem, 6.4432rem + 1.3636vw, 7.5rem);    /* 108 -> 120 */
-      --space-section: clamp(4.5rem, 3.2727rem + 5.4545vw, 7.5rem); /* section rhythm 72 -> 120 (controlled vs old 15vh) */
+      --space-section: clamp(4.5rem, 3.8864rem + 2.7273vw, 6rem); /* F3: section rhythm 72 -> 96 (trim dead-scroll, keep generous) */
     }
 
     * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -262,7 +262,7 @@
     .psec:last-child { margin-bottom: 0; }
     /* Intentional rhythm: a deliberate breath before the emotional close + CTA.
        padding (not margin) so it ADDS to the section gap instead of collapsing into it. */
-    .psec.close { padding-top: var(--space-xl); }
+    .psec.close { padding-top: var(--space-l); } /* F3: gentler CTA breath (was xl) */
 
     /* Centered-text discipline: balance every centered block so lines break into
        even, deliberate phrases (no long-line-then-orphan). This is what makes
@@ -288,8 +288,9 @@
     }
 
     .sec-label {
-      font-size: 0.76rem;
-      letter-spacing: 0.2em;
+      font-size: 0.72rem;
+      font-weight: 560;          /* F4: heavier so the eyebrow reads as a functional label, not decorative caps */
+      letter-spacing: 0.14em;
       text-transform: uppercase;
       color: var(--muted);
       margin-bottom: 2em;
