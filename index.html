@@ -1,0 +1,383 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>Ali Moiz — the boy in the story</title>
+  <meta name="description" content="I grew up to be a copywriter and ghostwriter, helping people tell their stories. This page is the first time I've done it for myself." />
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="Ali Moiz — the boy in the story" />
+  <meta property="og:description" content="A copywriter and ghostwriter who spent years making other people heard. This is him, falling on purpose for the first time." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,380;0,9..144,500;1,9..144,400&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg: #0a0a0a;
+      --fg: #f4f1ea;
+      --muted: rgba(244, 241, 234, 0.5);
+      --line: rgba(244, 241, 234, 0.16);
+    }
+    body.inverted {
+      --bg: #f4f1ea;
+      --fg: #1a1a1a;
+      --muted: rgba(26, 26, 26, 0.5);
+      --line: rgba(26, 26, 26, 0.16);
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    html, body { height: 100%; }
+
+    body {
+      background: var(--bg);
+      color: var(--fg);
+      font-family: 'Fraunces', Georgia, 'Times New Roman', serif;
+      min-height: 100dvh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      cursor: pointer;
+      transition: background 0.45s ease, color 0.45s ease;
+      -webkit-tap-highlight-color: transparent;
+      padding: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);
+    }
+
+    /* ---- The reveal stage ---- */
+    #stage {
+      width: min(92vw, 40rem);
+      max-height: 86dvh;
+      text-align: center;
+      user-select: none;
+      -webkit-user-select: none;
+    }
+
+    .beat {
+      opacity: 0;
+      transform: translateY(10px);
+      transition: opacity 0.65s ease, transform 0.65s ease;
+    }
+    .beat.in { opacity: 1; transform: translateY(0); }
+
+    .line {
+      font-size: clamp(1.5rem, 5vw, 2.55rem);
+      font-weight: 380;
+      line-height: 1.38;
+      letter-spacing: -0.01em;
+      text-wrap: balance;
+    }
+
+    .reveal {
+      font-size: clamp(1.7rem, 5.6vw, 2.9rem);
+      font-weight: 500;
+      line-height: 1.3;
+    }
+
+    /* ---- The wall (Hall of Fame) ---- */
+    .wall { width: 100%; }
+    .wall-head {
+      font-size: clamp(1.2rem, 3.6vw, 1.6rem);
+      font-weight: 500;
+      margin-bottom: 1.6em;
+      color: var(--fg);
+    }
+    .stats {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 1.1em 2.4em;
+      margin-bottom: 1.8em;
+    }
+    .stat { min-width: 6.5em; }
+    .stat .num {
+      font-size: clamp(1.6rem, 6vw, 2.5rem);
+      font-weight: 500;
+      letter-spacing: -0.02em;
+      display: block;
+      line-height: 1;
+    }
+    .stat .cap {
+      font-size: 0.78rem;
+      letter-spacing: 0.04em;
+      color: var(--muted);
+      margin-top: 0.5em;
+      font-weight: 380;
+    }
+    .creds {
+      border-top: 1px solid var(--line);
+      padding-top: 1.4em;
+      display: flex;
+      flex-direction: column;
+      gap: 0.55em;
+      font-size: clamp(0.95rem, 2.6vw, 1.12rem);
+      color: var(--fg);
+      font-weight: 380;
+    }
+
+    /* ---- The CTA ---- */
+    .cta-head {
+      font-size: clamp(1.8rem, 6vw, 3rem);
+      font-weight: 500;
+      margin-bottom: 0.9em;
+    }
+    .cta-sub {
+      font-size: clamp(1.05rem, 3vw, 1.3rem);
+      color: var(--muted);
+      margin-bottom: 1.5em;
+    }
+    .links {
+      display: flex;
+      gap: 0.9em;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+    .links a {
+      color: var(--fg);
+      text-decoration: none;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      padding: 0.7em 1.5em;
+      font-size: clamp(1rem, 3vw, 1.15rem);
+      font-weight: 500;
+      transition: border-color 0.2s ease, transform 0.2s ease;
+    }
+    .links a:hover { border-color: var(--fg); transform: translateY(-2px); }
+
+    /* ---- Chrome: invert, progress, hint ---- */
+    #invert {
+      position: fixed;
+      top: max(1rem, env(safe-area-inset-top));
+      right: max(1rem, env(safe-area-inset-right));
+      width: 2.4rem;
+      height: 2.4rem;
+      border-radius: 50%;
+      border: 1px solid var(--line);
+      background: transparent;
+      color: var(--fg);
+      font-size: 1rem;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 20;
+      transition: border-color 0.2s ease, transform 0.3s ease;
+      font-family: inherit;
+    }
+    #invert:hover { border-color: var(--fg); transform: rotate(180deg); }
+
+    #progress {
+      position: fixed;
+      left: 0; bottom: 0;
+      height: 2px;
+      width: 0%;
+      background: var(--fg);
+      opacity: 0.45;
+      transition: width 0.5s ease;
+      z-index: 20;
+    }
+
+    #hint {
+      position: fixed;
+      left: 50%;
+      bottom: max(1.6rem, env(safe-area-inset-bottom));
+      transform: translateX(-50%);
+      font-size: 0.78rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--muted);
+      z-index: 20;
+      transition: opacity 0.5s ease;
+      animation: pulse 2.4s ease-in-out infinite;
+    }
+    #hint.gone { opacity: 0; pointer-events: none; animation: none; }
+    @keyframes pulse { 0%, 100% { opacity: 0.35; } 50% { opacity: 0.75; } }
+
+    /* ---- No-JS fallback ---- */
+    noscript .fallback {
+      display: block;
+      max-width: 36rem;
+      margin: 3rem auto;
+      padding: 0 1.5rem;
+      font-size: 1.2rem;
+      line-height: 1.7;
+      text-align: left;
+    }
+    noscript .fallback p { margin-bottom: 1rem; }
+
+    @media (prefers-reduced-motion: reduce) {
+      .beat { transition: opacity 0.3s ease; transform: none; }
+      .beat.in { transform: none; }
+      #hint { animation: none; }
+      #invert:hover { transform: none; }
+    }
+  </style>
+</head>
+<body>
+  <noscript>
+    <div class="fallback">
+      <p>Once upon a time, there was a mischievous 9-year-old boy who loved to ride his red bicycle and ring doorbells and run.</p>
+      <p>One day he fell so hard he cut his head wide open. The doctors saved him, but the accident wasn't enough to change him.</p>
+      <p>As the boy grew older, his spirit grew smaller. He became so afraid of falling that he hid the stories he wrote and the poems he scribbled.</p>
+      <p>So he did the brave thing. If he couldn't step into the light, he would carry others into it. He took the words of founders and CEOs and made them heard. Once, he told a story that 3.7 million people stopped to read.</p>
+      <p>Hello. My name is Ali, and I'm the boy in the story. I grew up to be a copywriter and ghostwriter. This page is the first time I've done it for myself.</p>
+      <p>If you've got something to say and you think nobody can hear you, reach out. Let's get your voice heard. Say hi: <a href="mailto:syedalimoiz@gmail.com">syedalimoiz@gmail.com</a> or <a href="https://linkedin.com/in/syedalimoiz">LinkedIn</a>.</p>
+    </div>
+  </noscript>
+
+  <main id="stage" aria-live="polite"></main>
+
+  <button id="invert" aria-label="Invert colours" title="Invert colours">&#9680;</button>
+  <div id="progress"></div>
+  <div id="hint">tap to continue</div>
+
+  <script>
+    (function () {
+      var beats = [
+        { t: 'line', x: 'Once upon a time, there was a mischievous 9-year-old boy.' },
+        { t: 'line', x: 'For fun, he used to ride his red bicycle, or ring doorbells and run.' },
+        { t: 'line', x: 'One day, wearing a pair of oversized sunglasses, the boy fell hard.' },
+        { t: 'line', x: 'He fell so hard that he cut his head wide open.' },
+        { t: 'line', x: "Thankfully, the doctors were able to save him. But even the accident wasn't enough to change him." },
+        { t: 'line', x: 'The boy got better and ran right out of the hospital, still unafraid of falling or getting hurt.' },
+        { t: 'line', x: 'But as the boy grew older, something changed.' },
+        { t: 'line', x: 'As his voice got deeper and his arms got bigger, his spirit grew smaller.' },
+        { t: 'line', x: 'Now the boy was afraid of falling.' },
+        { t: 'line', x: 'He was so afraid of falling that he would only run alone.' },
+        { t: 'line', x: 'He would hide the stories he wrote, and cover up the poems he scribbled.' },
+        { t: 'line', x: 'His friends called him selfish. His demons called him weak.' },
+        { t: 'line', x: 'In his quiet desperation, the boy decided to change.' },
+        { t: 'line', x: "If he couldn't step into the light, he would carry others into it." },
+        { t: 'line', x: 'So he picked up a pen, sat in front of his keyboard, and wrote.' },
+        { t: 'line', x: 'He wrote for companies, and he wrote for non-profits.' },
+        { t: 'line', x: 'He took the words of founders and CEOs, and made them heard.' },
+        { t: 'line', x: 'Once, he told a story that 3.7 million people stopped to read.' },
+        { t: 'line', x: 'He gave the whole world the courage he could never find for himself.' },
+        { t: 'reveal', x: "Hello. My name is Ali, and I'm the boy in the story." },
+        { t: 'line', x: 'I grew up to be a copywriter and ghostwriter, helping people tell their stories.' },
+        { t: 'line', x: "This page is the first time I've done this for myself." },
+        { t: 'line', x: 'So this is me, falling on purpose for the first time.' },
+        { t: 'line', x: "Here's what I learned in all those years of writing for everyone but myself." },
+        { t: 'line', x: 'People never tell you the real reason they want something. It hides under the reason they give.' },
+        { t: 'line', x: 'My whole job is finding it, and saying it back so plainly that people feel understood.' },
+        { t: 'line', x: "Do that, and they listen. Here's what that has looked like." },
+        { t: 'line', x: 'A US financial newsletter handed me their pitch. It converted at 40%. Most of the industry fights for 15.' },
+        { t: 'line', x: 'Founders and companies made more than $215,000 from words I wrote.' },
+        { t: 'line', x: "A therapist read what I'd written about her work, and cried. She said it was a clearer version of her own voice." },
+        { t: 'line', x: 'Different people, same result. They got heard.' },
+        { t: 'wall' },
+        { t: 'line', x: "So if you've got something to say and you think nobody can hear you, please reach out." },
+        { t: 'line', x: 'I know exactly how you feel, and I know exactly how to fix it.' },
+        { t: 'line', x: "Let's get your voice heard." },
+        { t: 'cta' }
+      ];
+
+      var stage = document.getElementById('stage');
+      var progress = document.getElementById('progress');
+      var hint = document.getElementById('hint');
+      var invertBtn = document.getElementById('invert');
+      var i = 0;
+      var busy = false;
+
+      function esc(s) {
+        return s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+      }
+
+      function build(beat) {
+        if (beat.t === 'wall') {
+          return '<div class="beat wall">' +
+            '<div class="wall-head">Here\'s everything else that was in the drawer.</div>' +
+            '<div class="stats">' +
+              '<div class="stat"><span class="num">9M+</span><span class="cap">views written</span></div>' +
+              '<div class="stat"><span class="num">40%</span><span class="cap">landing page conversion</span></div>' +
+              '<div class="stat"><span class="num">$215k+</span><span class="cap">earned for clients</span></div>' +
+              '<div class="stat"><span class="num">1,750%</span><span class="cap">follower growth</span></div>' +
+            '</div>' +
+            '<div class="creds">' +
+              '<div>Psychology, IBA Karachi &middot; Dean\'s List, five semesters</div>' +
+              '<div>Thesis graded 93/100 &middot; a perfect 9 on IELTS listening</div>' +
+              '<div>Creative writing: A, commended</div>' +
+              '<div>Certified in AI prompting by Vanderbilt &amp; IBM</div>' +
+            '</div>' +
+          '</div>';
+        }
+        if (beat.t === 'cta') {
+          return '<div class="beat">' +
+            '<div class="cta-head">Let\'s get to work.</div>' +
+            '<div class="cta-sub">Say &lsquo;hi&rsquo; here:</div>' +
+            '<div class="links">' +
+              '<a href="mailto:syedalimoiz@gmail.com">Email</a>' +
+              '<a href="https://linkedin.com/in/syedalimoiz" target="_blank" rel="noopener">LinkedIn</a>' +
+            '</div>' +
+          '</div>';
+        }
+        var cls = beat.t === 'reveal' ? 'beat reveal' : 'beat line';
+        return '<div class="' + cls + '">' + esc(beat.x) + '</div>';
+      }
+
+      function render(idx) {
+        stage.innerHTML = build(beats[idx]);
+        var el = stage.firstChild;
+        // force reflow so the transition runs from the start state
+        void el.offsetWidth;
+        el.classList.add('in');
+        progress.style.width = ((idx + 1) / beats.length * 100) + '%';
+      }
+
+      function next() {
+        if (busy || i >= beats.length - 1) return;
+        busy = true;
+        if (!hint.classList.contains('gone')) hint.classList.add('gone');
+        var cur = stage.firstChild;
+        if (cur) { cur.classList.remove('in'); }
+        setTimeout(function () {
+          i++;
+          render(i);
+          busy = false;
+        }, 280);
+      }
+
+      function prev() {
+        if (busy || i <= 0) return;
+        busy = true;
+        var cur = stage.firstChild;
+        if (cur) { cur.classList.remove('in'); }
+        setTimeout(function () {
+          i--;
+          render(i);
+          busy = false;
+        }, 280);
+      }
+
+      // Advance on tap/click anywhere except interactive elements.
+      document.addEventListener('click', function (e) {
+        if (e.target.closest('a') || e.target.closest('#invert')) return;
+        next();
+      });
+
+      // Keyboard.
+      window.addEventListener('keydown', function (e) {
+        if (e.key === ' ' || e.key === 'ArrowRight' || e.key === 'ArrowDown' || e.key === 'Enter') {
+          e.preventDefault(); next();
+        } else if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') {
+          e.preventDefault(); prev();
+        }
+      });
+
+      // Invert toggle, remembered.
+      function applyTheme(t) {
+        if (t === 'light') document.body.classList.add('inverted');
+        else document.body.classList.remove('inverted');
+      }
+      try { applyTheme(localStorage.getItem('theme')); } catch (e) {}
+      invertBtn.addEventListener('click', function (e) {
+        e.stopPropagation();
+        var light = document.body.classList.toggle('inverted');
+        try { localStorage.setItem('theme', light ? 'light' : 'dark'); } catch (e2) {}
+      });
+
+      render(0);
+    })();
+  </script>
+</body>
+</html>
