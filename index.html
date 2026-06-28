@@ -84,6 +84,7 @@
 
     /* ---- The reveal stage ---- */
     #stage {
+      position: relative; /* anchor for the ghost neighbour lines */
       width: min(92vw, 40rem);
       max-height: 86dvh;
       text-align: center;
@@ -91,6 +92,38 @@
       -webkit-user-select: none;
       transition: opacity 0.35s ease;
     }
+
+    /* ---- Lyric focus: the previous/next line linger faintly above and below the
+         lit one, fading into the distance. The active beat stays centred and bright;
+         ghosts are absolute so they never shift it, and never take a tap. ---- */
+    .ghost {
+      position: absolute;
+      left: 0; right: 0;
+      text-align: center;
+      pointer-events: none;
+      font-size: clamp(1.5rem, 1.0705rem + 1.9091vw, 2.55rem);
+      font-weight: 380;
+      line-height: 1.38;
+      letter-spacing: -0.01em;
+      text-wrap: balance;
+      color: var(--secondary);
+      opacity: 0;
+      transform: scale(0.95) translateY(var(--ghost-shift, 0));
+      transition: opacity 0.6s ease, transform 0.6s ease;
+    }
+    .ghost.prev {
+      bottom: calc(100% + var(--space-m));
+      --ghost-shift: 8px;
+      -webkit-mask-image: linear-gradient(to top, #000 0%, #000 18%, transparent 100%);
+              mask-image: linear-gradient(to top, #000 0%, #000 18%, transparent 100%);
+    }
+    .ghost.next {
+      top: calc(100% + var(--space-m));
+      --ghost-shift: -8px;
+      -webkit-mask-image: linear-gradient(to bottom, #000 0%, #000 18%, transparent 100%);
+              mask-image: linear-gradient(to bottom, #000 0%, #000 18%, transparent 100%);
+    }
+    .ghost.show { opacity: 0.3; transform: scale(0.95) translateY(0); }
 
     .beat {
       opacity: 0;
@@ -685,20 +718,47 @@
         return '<div class="beat"><div class="' + cls + '">' + esc(beat.x) + '</div></div>';
       }
 
+      // A ghost neighbour is only drawn for plain text beats, and never for the
+      // reveal as a "next" line (that would spoil the hinge before you cross it).
+      function ghostHTML(beat, side) {
+        if (!beat || beat.t === 'wall' || beat.t === 'cta') return '';
+        if (side === 'next' && beat.t === 'reveal') return '';
+        return '<div class="ghost ' + side + '">' + esc(beat.x) + '</div>';
+      }
+
       function render(idx) {
-        stage.innerHTML = build(beats[idx]);
-        var el = stage.firstChild;
+        var isHinge = (idx === beats.length - 1);
+        // The hinge stands alone (no ghosts); elsewhere the line is flanked by its
+        // neighbours, faint, so you feel the body of the story around the lit line.
+        var prevG = (!isHinge && idx > 0) ? ghostHTML(beats[idx - 1], 'prev') : '';
+        var nextG = (!isHinge) ? ghostHTML(beats[idx + 1], 'next') : '';
+        stage.innerHTML = prevG + build(beats[idx]) + nextG;
+        var el = stage.querySelector('.beat');
         // force reflow so the transition runs from the start state
         void el.offsetWidth;
         el.classList.add('in');
+        // ghosts settle in just after the lit line, so focus lands first
+        var ghosts = stage.querySelectorAll('.ghost');
+        if (ghosts.length) {
+          void stage.offsetWidth;
+          setTimeout(function () {
+            [].forEach.call(ghosts, function (g) { g.classList.add('show'); });
+          }, 90);
+        }
         progress.style.width = ((idx + 1) / beats.length * 100) + '%';
         backBtn.classList.toggle('hidden', idx === 0);
         // The reveal is a standalone hinge: the story is done, so no progress bar,
         // and a distinct quiet cue to cross over (not the same "tap to continue").
-        var isHinge = (idx === beats.length - 1);
         progress.style.opacity = isHinge ? '0' : '';
         if (isHinge) { hint.textContent = 'continue'; hint.classList.remove('gone'); }
         else if (idx > 0) { hint.classList.add('gone'); }
+      }
+
+      // Fade the whole lit-line + ghost group out together before the next renders.
+      function clearStage() {
+        var cur = stage.querySelector('.beat');
+        if (cur) cur.classList.remove('in');
+        [].forEach.call(stage.querySelectorAll('.ghost'), function (g) { g.classList.remove('show'); });
       }
 
       function next() {
@@ -707,8 +767,7 @@
         busy = true;
         playTick(660);
         if (!hint.classList.contains('gone')) hint.classList.add('gone');
-        var cur = stage.firstChild;
-        if (cur) { cur.classList.remove('in'); }
+        clearStage();
         setTimeout(function () {
           i++;
           render(i);
@@ -720,8 +779,7 @@
         if (busy || i <= 0) return;
         busy = true;
         playTick(520);
-        var cur = stage.firstChild;
-        if (cur) { cur.classList.remove('in'); }
+        clearStage();
         setTimeout(function () {
           i--;
           render(i);
