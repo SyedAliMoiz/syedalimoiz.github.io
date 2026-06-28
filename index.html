@@ -603,6 +603,12 @@
         el.classList.add('in');
         progress.style.width = ((idx + 1) / beats.length * 100) + '%';
         backBtn.classList.toggle('hidden', idx === 0);
+        // The reveal is a standalone hinge: the story is done, so no progress bar,
+        // and a distinct quiet cue to cross over (not the same "tap to continue").
+        var isHinge = (idx === beats.length - 1);
+        progress.style.opacity = isHinge ? '0' : '';
+        if (isHinge) { hint.textContent = 'continue'; hint.classList.remove('gone'); }
+        else if (idx > 0) { hint.classList.add('gone'); }
       }
 
       function next() {
@@ -705,7 +711,21 @@
         try { localStorage.setItem('theme', light ? 'light' : 'dark'); } catch (e2) {}
       });
 
-      render(0);
+      // Deliberate opening: a beat of intentional black, then the first line fades in.
+      // Gated on font readiness so "Once upon a time" lands in Fraunces, with a hard
+      // fallback timer so it never depends on fonts loading.
+      hint.classList.add('gone');
+      function start() {
+        setTimeout(function () { render(0); hint.classList.remove('gone'); }, 240);
+      }
+      if (document.fonts && document.fonts.ready && typeof document.fonts.ready.then === 'function') {
+        var started = false;
+        var go = function () { if (started) return; started = true; start(); };
+        document.fonts.ready.then(go);
+        setTimeout(go, 1200);
+      } else {
+        start();
+      }
     })();
   </script>
 </body>

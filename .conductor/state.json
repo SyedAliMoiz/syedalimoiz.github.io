@@ -1,13 +1,8 @@
 {
-  "active_run": "2026-06-28-improve-story-portfolio",
-  "stage": 4,
-  "stage_name": "complete",
-  "awaiting": null,
-  "last_updated": "2026-06-28T03:00:00Z",
-  "history": [
-    {"stage": 0, "actor": "user", "action": "answered", "rating": "APPROVED"},
-    {"stage": 1, "actor": "codex", "action": "reviewed", "rating": "NEEDS WORK -> revised"},
-    {"stage": 2, "actor": "codex", "action": "reviewed", "rating": "NEEDS WORK -> resolved in plan-final"},
-    {"stage": 3, "actor": "claude", "action": "implemented + verified", "rating": "DONE (Chapter Spine deferred to v2)"}
-  ]
+  "active_run": "2026-06-28-polish-and-elevate",
+  "stage": 1,
+  "stage_name": "research",
+  "awaiting": "reviewer",
+  "last_updated": "2026-06-28T04:00:00Z",
+  "history": []
 }
