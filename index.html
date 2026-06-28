@@ -175,6 +175,110 @@
     }
     .links a:hover { border-color: var(--fg); transform: translateY(-2px); }
 
+    /* ---- Phase 3: the scrollable designed page ---- */
+    body.reading #stage,
+    body.reading #progress,
+    body.reading #hint { display: none; }
+
+    #page {
+      position: fixed;
+      inset: 0;
+      overflow-y: auto;
+      overflow-x: hidden;
+      -webkit-overflow-scrolling: touch;
+      z-index: 5;
+      cursor: auto;
+    }
+    #page.hidden { display: none; }
+
+    .page-inner {
+      max-width: 34rem;
+      margin: 0 auto;
+      padding: 16vh 1.6rem 18vh;
+      text-align: center;
+    }
+    .psec { margin-bottom: 15vh; }
+    .psec:last-child { margin-bottom: 0; }
+
+    .hero-line {
+      font-size: clamp(1.35rem, 4.4vw, 1.95rem);
+      line-height: 1.42;
+      color: var(--muted);
+      margin-bottom: 0.55em;
+    }
+    .hero-line.accent {
+      color: var(--fg);
+      font-weight: 500;
+      font-size: clamp(1.6rem, 5.4vw, 2.4rem);
+      margin-top: 0.5em;
+      margin-bottom: 0;
+    }
+
+    .sec-label {
+      font-size: 0.76rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 2em;
+    }
+
+    .lead {
+      font-size: clamp(1.3rem, 4.6vw, 1.95rem);
+      line-height: 1.45;
+      margin-bottom: 0.7em;
+    }
+    .bodytext {
+      font-size: clamp(1.05rem, 3.2vw, 1.25rem);
+      line-height: 1.6;
+      color: var(--muted);
+    }
+
+    .proof {
+      display: flex;
+      flex-direction: column;
+      gap: 2.6em;
+      margin-bottom: 2.8em;
+    }
+    .proof-num {
+      display: block;
+      font-size: clamp(2.4rem, 10vw, 3.6rem);
+      font-weight: 500;
+      letter-spacing: -0.02em;
+      line-height: 1;
+      margin-bottom: 0.25em;
+      color: var(--fg);
+    }
+    .proof-num.quiet {
+      font-size: clamp(1.5rem, 6vw, 2.1rem);
+      font-style: italic;
+      color: var(--muted);
+    }
+    .proof-item p {
+      font-size: clamp(1.02rem, 3vw, 1.18rem);
+      line-height: 1.55;
+      color: var(--muted);
+      max-width: 26rem;
+      margin: 0 auto;
+    }
+    .punch {
+      font-size: clamp(1.3rem, 4.6vw, 1.85rem);
+      font-weight: 500;
+      line-height: 1.4;
+    }
+
+    .close-line {
+      font-size: clamp(1.25rem, 4.2vw, 1.75rem);
+      line-height: 1.45;
+      color: var(--muted);
+      margin-bottom: 0.6em;
+    }
+    .close-line.accent { color: var(--fg); }
+    .close .cta-head { margin-top: 1em; }
+
+    /* gentle scroll-reveal, progressive enhancement (only when JS adds .js) */
+    #page.js .psec { opacity: 0; transform: translateY(22px); transition: opacity 0.7s ease, transform 0.7s ease; }
+    #page.js .psec.seen { opacity: 1; transform: none; }
+
     /* ---- Chrome: invert, progress, hint ---- */
     #invert {
       position: fixed;
@@ -290,6 +394,7 @@
       .anim-drop, .anim-hold, .anim-catch, .anim-shrink { transform: none; transition: none; }
       .anim-reveal { transform: none; letter-spacing: normal; transition: none; }
       .wall .stat, .wall .creds > div { transition: none; opacity: 1; transform: none; }
+      #page.js .psec { opacity: 1; transform: none; transition: none; }
       #hint { animation: none; }
       #invert:hover { transform: none; }
     }
@@ -308,6 +413,67 @@
   </noscript>
 
   <main id="stage" aria-live="polite"></main>
+
+  <!-- Phase 3: the scrollable, designed page (shown after the reveal hinge) -->
+  <div id="page" class="hidden">
+    <div class="page-inner">
+      <section class="psec hero">
+        <p class="hero-line">I grew up to be a copywriter and ghostwriter, helping people tell their stories.</p>
+        <p class="hero-line">This page is the first time I've done this for myself.</p>
+        <p class="hero-line accent">So this is me, falling on purpose for the first time.</p>
+      </section>
+
+      <section class="psec">
+        <p class="lead">People never tell you the real reason they want something. It hides under the reason they give.</p>
+        <p class="bodytext">My whole job is finding it, and saying it back so plainly that people feel understood.</p>
+      </section>
+
+      <section class="psec">
+        <p class="sec-label">What that has looked like</p>
+        <div class="proof">
+          <div class="proof-item">
+            <span class="proof-num">40%</span>
+            <p>A US financial newsletter handed me their pitch. It converted at 40 percent. Most of the industry fights for 15.</p>
+          </div>
+          <div class="proof-item">
+            <span class="proof-num">$215k+</span>
+            <p>Founders and companies earned more than $215,000 from words I wrote.</p>
+          </div>
+          <div class="proof-item">
+            <span class="proof-num quiet">she cried</span>
+            <p>A therapist read what I'd written about her work, and cried. She said it was a clearer version of her own voice.</p>
+          </div>
+        </div>
+        <p class="punch">Different people, same result. They got heard.</p>
+      </section>
+
+      <section class="psec">
+        <p class="sec-label">Everything else that was in the drawer</p>
+        <div class="stats">
+          <div class="stat"><span class="num">9M+</span><span class="cap">views written</span></div>
+          <div class="stat"><span class="num">3.7M</span><span class="cap">on a single story</span></div>
+          <div class="stat"><span class="num">1,750%</span><span class="cap">follower growth</span></div>
+        </div>
+        <div class="creds">
+          <div>Psychology, IBA Karachi &middot; Dean's List, five semesters</div>
+          <div>Thesis graded 93/100 &middot; a perfect 9 on IELTS listening</div>
+          <div>Creative writing: A, commended</div>
+          <div>Certified in AI prompting by Vanderbilt &amp; IBM</div>
+        </div>
+      </section>
+
+      <section class="psec close">
+        <p class="close-line">If you've got something to say and you think nobody can hear you, reach out.</p>
+        <p class="close-line accent">I know exactly how you feel, and I know exactly how to fix it.</p>
+        <p class="cta-head">Let's get to work.</p>
+        <div class="cta-sub">Say &lsquo;hi&rsquo; here:</div>
+        <div class="links">
+          <a href="mailto:syedalimoiz@gmail.com">Email</a>
+          <a href="https://linkedin.com/in/syedalimoiz" target="_blank" rel="noopener">LinkedIn</a>
+        </div>
+      </section>
+    </div>
+  </div>
 
   <button id="invert" aria-label="Invert colours" title="Invert colours">&#9680;</button>
   <button id="sound" aria-label="Toggle sound" title="Toggle sound">&#9834;</button>
@@ -337,23 +503,7 @@
         { t: 'line', x: 'He took the words of founders and CEOs, and made them heard.' },
         { t: 'line', x: 'Once, he told a story that 3.7 million people stopped to read.' },
         { t: 'line', x: 'He gave the whole world the courage he could never find for himself.' },
-        { t: 'reveal', x: "Hello. My name is Ali, and I'm the boy in the story.", anim: 'reveal' },
-        { t: 'line', x: 'I grew up to be a copywriter and ghostwriter, helping people tell their stories.' },
-        { t: 'line', x: "This page is the first time I've done this for myself." },
-        { t: 'line', x: 'So this is me, falling on purpose for the first time.', anim: 'catch' },
-        { t: 'line', x: "Here's what I learned in all those years of writing for everyone but myself." },
-        { t: 'line', x: 'People never tell you the real reason they want something. It hides under the reason they give.' },
-        { t: 'line', x: 'My whole job is finding it, and saying it back so plainly that people feel understood.' },
-        { t: 'line', x: "Do that, and they listen. Here's what that has looked like." },
-        { t: 'line', x: 'A US financial newsletter handed me their pitch. It converted at 40%. Most of the industry fights for 15.' },
-        { t: 'line', x: 'Founders and companies made more than $215,000 from words I wrote.' },
-        { t: 'line', x: "A therapist read what I'd written about her work, and cried. She said it was a clearer version of her own voice." },
-        { t: 'line', x: 'Different people, same result. They got heard.' },
-        { t: 'wall' },
-        { t: 'line', x: "So if you've got something to say and you think nobody can hear you, please reach out." },
-        { t: 'line', x: 'I know exactly how you feel, and I know exactly how to fix it.' },
-        { t: 'line', x: "Let's get your voice heard." },
-        { t: 'cta' }
+        { t: 'reveal', x: "Hello. My name is Ali, and I'm the boy in the story.", anim: 'reveal' }
       ];
 
       var stage = document.getElementById('stage');
@@ -362,6 +512,8 @@
       var invertBtn = document.getElementById('invert');
       var soundBtn = document.getElementById('sound');
       var backBtn = document.getElementById('back');
+      var page = document.getElementById('page');
+      var mode = 'carousel'; // 'carousel' (story + reveal hinge) or 'page' (scroll)
       var i = 0;
       var busy = false;
 
@@ -454,7 +606,8 @@
       }
 
       function next() {
-        if (busy || i >= beats.length - 1) return;
+        if (busy) return;
+        if (i >= beats.length - 1) { if (mode === 'carousel') enterPage(); return; }
         busy = true;
         playTick(660);
         if (!hint.classList.contains('gone')) hint.classList.add('gone');
@@ -480,18 +633,59 @@
         }, 280);
       }
 
-      // Advance on tap/click anywhere except interactive controls.
+      // ---- Phase 3 handoff: carousel story -> reveal hinge -> scroll page ----
+      page.classList.add('js'); // enables the gentle scroll-reveal pre-state
+      var io = null;
+      if ('IntersectionObserver' in window) {
+        io = new IntersectionObserver(function (entries) {
+          entries.forEach(function (en) {
+            if (en.isIntersecting) { en.target.classList.add('seen'); io.unobserve(en.target); }
+          });
+        }, { threshold: 0.12 });
+        [].forEach.call(page.querySelectorAll('.psec'), function (s) { io.observe(s); });
+      } else {
+        [].forEach.call(page.querySelectorAll('.psec'), function (s) { s.classList.add('seen'); });
+      }
+
+      function enterPage() {
+        if (mode === 'page') return;
+        mode = 'page';
+        playTick(740);
+        if (!hint.classList.contains('gone')) hint.classList.add('gone');
+        document.body.classList.add('reading');
+        page.classList.remove('hidden');
+        page.scrollTop = 0;
+        var secs = page.querySelectorAll('.psec'); // reveal what's in view; IO does the rest
+        if (secs[0]) secs[0].classList.add('seen');
+        if (secs[1]) secs[1].classList.add('seen');
+      }
+
+      function exitToCarousel() {
+        if (mode !== 'page') return;
+        mode = 'carousel';
+        playTick(520);
+        document.body.classList.remove('reading');
+        page.classList.add('hidden');
+        // we remain on the reveal hinge (the last carousel beat)
+      }
+
+      // Advance on tap/click anywhere except interactive controls; only in carousel mode.
       document.addEventListener('click', function (e) {
         if (e.target.closest('a') || e.target.closest('#invert') ||
             e.target.closest('#sound') || e.target.closest('#back')) return;
+        if (mode !== 'carousel') return;
         next();
       });
 
-      // Back control.
-      backBtn.addEventListener('click', function (e) { e.stopPropagation(); prev(); });
+      // Back: in the scroll page it returns to the story; otherwise it steps back.
+      backBtn.addEventListener('click', function (e) {
+        e.stopPropagation();
+        if (mode === 'page') exitToCarousel(); else prev();
+      });
 
-      // Keyboard.
+      // Keyboard (carousel only; the scroll page uses native scrolling).
       window.addEventListener('keydown', function (e) {
+        if (mode !== 'carousel') { if (e.key === 'Escape') exitToCarousel(); return; }
         if (e.key === ' ' || e.key === 'ArrowRight' || e.key === 'ArrowDown' || e.key === 'Enter') {
           e.preventDefault(); next();
         } else if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') {
