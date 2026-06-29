@@ -103,6 +103,15 @@
       transition: opacity 0.35s ease;
     }
 
+    /* Reveal spotlight: a warm pool of light finds him on the dark stage (not an invert) */
+    #stage { position: relative; z-index: 2; }
+    #spotlight {
+      position: fixed; inset: 0; z-index: 1; pointer-events: none; opacity: 0;
+      background: radial-gradient(58% 52% at 50% 50%, rgba(247,240,232,0.22) 0%, rgba(214,176,106,0.08) 36%, rgba(247,240,232,0) 72%);
+      transform: scale(0.86);
+      transition: opacity 1.6s ease, transform 1.9s cubic-bezier(0.2,0.6,0.2,1);
+    }
+    body.lit #spotlight { opacity: 1; transform: scale(1); }
     .beat {
       opacity: 0;
       transform: translateY(10px);
@@ -520,6 +529,7 @@
       .beat.in { transform: none; }
       .anim-drop, .anim-hold, .anim-catch, .anim-shrink { transform: none; transition: none; }
       .shrink-word { font-size: 1em !important; transition: none !important; }
+      #spotlight { transition: none !important; transform: none !important; }
       .anim-reveal { transform: none; letter-spacing: normal; transition: none; }
       .wall .stat, .wall .creds > div { transition: none; opacity: 1; transform: none; }
       #page.js .psec { opacity: 1; transform: none; transition: none; }
@@ -540,10 +550,11 @@
       <p>People never tell you the real reason they want something. It hides under the reason they give. My whole job is finding it, and saying it back so plainly that people feel understood.</p>
       <p>I wrote the opt-in page for a US finance publisher that converted at 40%, while most landing pages never crack 15%. Founders and companies have earned more than 15,000 from words I wrote. A therapist read what I’d written about her work, and cried, because it was a clearer version of her own voice.</p>
       <p>9M+ views written, 3.7M on a single story, 1,750% follower growth. Psychology at IBA Karachi: the study of why people do what they do.</p>
-      <p>If you’ve got something to say and you think nobody can hear you, reach out, and I’ll get you heard. See the work: <a href="https://docs.google.com/document/d/18RKoyBO-ca6TPP_vjRg73B7-TQQcI6fxhWaEYHUh-mk/edit?usp=sharing">my portfolio</a>. Or say hi: <a href="mailto:syedalimoiz@gmail.com">syedalimoiz@gmail.com</a> or <a href="https://linkedin.com/in/syedalimoiz">LinkedIn</a>.</p>
+      <p>If you’ve got something to say and you think nobody can hear you, reach out, and I’ll get you heard. See my work: <a href="https://docs.google.com/document/d/18RKoyBO-ca6TPP_vjRg73B7-TQQcI6fxhWaEYHUh-mk/edit?usp=sharing">my portfolio</a>. Or say hi: <a href="mailto:syedalimoiz@gmail.com">syedalimoiz@gmail.com</a> or <a href="https://linkedin.com/in/syedalimoiz">LinkedIn</a>.</p>
     </div>
   </noscript>
 
+  <div id="spotlight"></div>
   <main id="stage" aria-live="polite"></main>
 
   <!-- Phase 3: the scrollable, designed page (shown after the reveal hinge) -->
@@ -597,7 +608,7 @@
         <p class="cta-head">Let’s get to work.</p>
         <div class="cta-sub">Have a look, or say hi:</div>
         <div class="links">
-          <a href="https://docs.google.com/document/d/18RKoyBO-ca6TPP_vjRg73B7-TQQcI6fxhWaEYHUh-mk/edit?usp=sharing" target="_blank" rel="noopener">See the work</a>
+          <a href="https://docs.google.com/document/d/18RKoyBO-ca6TPP_vjRg73B7-TQQcI6fxhWaEYHUh-mk/edit?usp=sharing" target="_blank" rel="noopener">See my work</a>
           <a href="mailto:syedalimoiz@gmail.com">Email</a>
           <a href="https://linkedin.com/in/syedalimoiz" target="_blank" rel="noopener">LinkedIn</a>
         </div>
@@ -708,10 +719,8 @@
         progress.style.opacity = ''; // show 100% on the reveal — the carousel ends here
         if (isHinge) { hint.textContent = 'continue'; hint.classList.remove('gone'); }
         else if (idx > 0) { hint.classList.add('gone'); }
-        // The reveal "steps into the light": warm the screen to cream for this
-        // beat only; the reader's chosen theme is restored on the page / on back.
-        if (isHinge) { document.body.classList.add('inverted'); }
-        else { applyTheme(localStorage.getItem('theme')); }
+        // The reveal: a warm pool of light finds him on the dark stage.
+        document.body.classList.toggle('lit', isHinge);
       }
 
       function next() {
@@ -766,10 +775,7 @@
         progress.style.opacity = '0';
         setTimeout(function () {
           document.body.classList.add('reading');
-          // restore the reader's theme for the page, snapped instantly while hidden
-          var _bt = document.body.style.transition; document.body.style.transition = 'none';
-          applyTheme(localStorage.getItem('theme')); void document.body.offsetWidth;
-          document.body.style.transition = _bt;
+          document.body.classList.remove('lit'); // light fades; the page is its own world
           stage.style.opacity = '';
           page.classList.remove('hidden');
           void page.offsetWidth; // commit opacity:0 before fading in
@@ -791,7 +797,7 @@
         setTimeout(function () {
           document.body.classList.remove('reading');
           page.classList.add('hidden');
-          document.body.classList.add('inverted'); // back on the reveal — restore the light
+          document.body.classList.add('lit'); // back on the reveal — the light returns
         }, 340);
         // we remain on the reveal hinge (the last carousel beat)
       }
