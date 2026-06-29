@@ -143,8 +143,8 @@
     .beat.in .anim-reveal { transform: none; letter-spacing: normal; }
     .beat.in .anim-shrink { transform: scale(0.86); }
     /* Phrase-level shrink (Ali): ONLY the wrapped words shrink, not the whole card */
-    .shrink-word { display: inline-block; transform-origin: center; transition: transform 1s cubic-bezier(0.4, 0, 0.2, 1) 0.5s; }
-    .beat.in .shrink-word { transform: scale(0.7); }
+    .shrink-word { display: inline-block; transition: font-size 1s cubic-bezier(0.4, 0, 0.2, 1) 0.5s; }
+    .beat.in .shrink-word { font-size: 0.6em; }
 
     /* ---- Hall of Fame "drawer": stats and credentials transition in, staggered ---- */
     .wall .stat, .wall .creds > div { opacity: 0; transform: translateY(10px); transition: opacity 0.5s ease, transform 0.5s ease; }
@@ -517,7 +517,7 @@
       .beat { transition: opacity 0.3s ease; transform: none; }
       .beat.in { transform: none; }
       .anim-drop, .anim-hold, .anim-catch, .anim-shrink { transform: none; transition: none; }
-      .shrink-word { transform: none !important; transition: none !important; }
+      .shrink-word { font-size: 1em !important; transition: none !important; }
       .anim-reveal { transform: none; letter-spacing: normal; transition: none; }
       .wall .stat, .wall .creds > div { transition: none; opacity: 1; transform: none; }
       #page.js .psec { opacity: 1; transform: none; transition: none; }
