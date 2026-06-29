@@ -337,11 +337,12 @@
       color: var(--fg);
     }
     .proof-num.quiet {
-      font-size: var(--step-3); /* F2: more presence — the emotional counterpoint to the metrics, still quieter (italic + muted) */
+      font-size: var(--step-4); /* F2 + Fix #8: a peer to the numerals, not a losing third stat — still italic + muted */
       font-style: italic;
       letter-spacing: -0.01em; /* italic needs less negative tracking than the loud numerals */
       color: var(--muted);
     }
+    .proof .proof-item:last-child { margin-top: 0.6em; } /* Fix #8: air around "she cried" */
     .proof-item p {
       font-size: var(--step-0);
       line-height: 1.55;
