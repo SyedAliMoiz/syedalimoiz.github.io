@@ -307,6 +307,10 @@
       line-height: 1.6;
       color: var(--secondary); /* F1: body support — clear middle tier, below the lead */
     }
+    /* Critique Fix #1: surface the buyer-facing value statement — its own beat of
+       air, and the promise line lands at full lead size/brightness (was quiet bodytext). */
+    .psec.value { padding-top: var(--space-l); }
+    .lead.promise { font-weight: 480; margin-top: 0.55em; }
 
     .proof {
       display: flex;
@@ -530,9 +534,9 @@
         <p class="hero-line accent">So here I am,<br><span class="drop-word">falling</span> on purpose<br>for the first time.</p>
       </section>
 
-      <section class="psec">
+      <section class="psec value">
         <p class="lead">People never tell you the real reason they want something. It hides under the reason they give.</p>
-        <p class="bodytext">My whole job is finding it, and saying it back so plainly that people feel understood.</p>
+        <p class="lead promise">My whole job is finding it, and saying it back so plainly that people feel understood.</p>
       </section>
 
       <section class="psec">
