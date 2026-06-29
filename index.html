@@ -164,7 +164,7 @@
       gap: 1.1em 2.4em;
       margin-bottom: 1.8em;
     }
-    .stat { min-width: 6.5em; }
+    .stat { min-width: 0; } /* Fix #12: stats hold a row on mobile */
     .stat .num {
       font-size: var(--step-2);
       font-weight: 500;
@@ -210,7 +210,7 @@
     .links a {
       color: var(--fg);
       text-decoration: none;
-      border: 1px solid var(--line);
+      border: 1px solid var(--muted);
       border-radius: 999px;
       padding: 0.7em 1.5em;
       font-size: var(--step-0);
@@ -246,7 +246,7 @@
       font-size: 0.74rem;
       letter-spacing: 0.16em;
       text-transform: uppercase;
-      color: var(--meta); /* F1: transient hint — faintest tier */
+      color: var(--muted); /* Fix #9: legible scroll cue */
       z-index: 8;
       pointer-events: none;
       transition: opacity 0.5s ease;
@@ -401,10 +401,10 @@
       position: fixed;
       top: max(1rem, env(safe-area-inset-top));
       right: max(1rem, env(safe-area-inset-right));
-      width: 2.4rem;
-      height: 2.4rem;
+      width: 2.75rem;
+      height: 2.75rem;
       border-radius: 50%;
-      border: 1px solid var(--line);
+      border: 1px solid var(--muted);
       background: transparent;
       color: var(--fg);
       font-size: 1rem;
@@ -423,10 +423,10 @@
       position: fixed;
       top: max(1rem, env(safe-area-inset-top));
       right: calc(max(1rem, env(safe-area-inset-right)) + 3rem);
-      width: 2.4rem;
-      height: 2.4rem;
+      width: 2.75rem;
+      height: 2.75rem;
       border-radius: 50%;
-      border: 1px solid var(--line);
+      border: 1px solid var(--muted);
       background: transparent;
       color: var(--fg);
       font-size: 1rem;
@@ -447,10 +447,10 @@
       position: fixed;
       bottom: max(1rem, env(safe-area-inset-bottom));
       left: max(1rem, env(safe-area-inset-left));
-      width: 2.4rem;
-      height: 2.4rem;
+      width: 2.75rem;
+      height: 2.75rem;
       border-radius: 50%;
-      border: 1px solid var(--line);
+      border: 1px solid var(--muted);
       background: transparent;
       color: var(--fg);
       font-size: 1.3rem;
@@ -469,10 +469,10 @@
     #progress {
       position: fixed;
       left: 0; bottom: 0;
-      height: 2px;
+      height: 3px;
       width: 0%;
       background: var(--fg);
-      opacity: 0.45;
+      opacity: 0.6;
       transition: width 0.5s ease;
       z-index: 20;
     }
@@ -485,13 +485,13 @@
       font-size: 0.78rem;
       letter-spacing: 0.12em;
       text-transform: uppercase;
-      color: var(--meta); /* F1: transient "tap to continue" hint — faintest tier */
+      color: var(--muted); /* Fix #9: the make-or-break instruction must be legible (was --meta, ~invisible) */
       z-index: 20;
       transition: opacity 0.5s ease;
       animation: pulse 2.4s ease-in-out infinite;
     }
     #hint.gone { opacity: 0; pointer-events: none; animation: none; }
-    @keyframes pulse { 0%, 100% { opacity: 0.35; } 50% { opacity: 0.75; } }
+    @keyframes pulse { 0%, 100% { opacity: 0.55; } 50% { opacity: 0.9; } }
 
     /* ---- No-JS fallback ---- */
     noscript .fallback {
