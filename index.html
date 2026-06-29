@@ -40,6 +40,7 @@
       --meta: #6b6458;      /* faint labels only ~3:1 */
       --line: #2e2922;      /* solid warm hairline */
       --surface: #241f19;   /* raised warm panel */
+      --hl: #d6b06a;        /* single warm-gold accent: the one highlighted stat */
     }
     body.inverted {
       --bg: #f4f0e8;        /* warm cream */
@@ -49,6 +50,7 @@
       --meta: #8a8478;      /* faint labels only ~3.3:1 */
       --line: #ddd6ca;      /* solid warm hairline */
       --surface: #e8e0d3;   /* raised blush panel */
+      --hl: #8a6a2c;        /* deeper gold for the cream theme */
     }
     /* Fluid type scale (Utopia method, base 18->20px, ratio 1.2 mobile -> 1.333 desktop,
        fluid range 360->1240px). Every step carries a rem term so it scales on zoom
@@ -122,6 +124,9 @@
       line-height: 1.3;
       letter-spacing: -0.015em; /* the hinge headline — tighten like a display line */
     }
+
+    /* Fix #12/beat-cut: one deliberate warm-gold highlight on the hero stat */
+    .hl { color: var(--hl); }
 
     /* ---- Signature beats: motion lives on the inner wrapper, driven by the outer
          .in class via transitions (the same reliable mechanism as the base fade).
@@ -603,26 +608,20 @@
   <script>
     (function () {
       var beats = [
-        { t: 'line', x: 'Once upon a time, there was a mischievous 9-year-old boy.' },
-        { t: 'line', x: 'For fun, he used to ride his red bicycle, or ring doorbells and run.' },
-        { t: 'line', x: 'One day, wearing a pair of oversized sunglasses, the boy fell hard.' },
-        { t: 'line', x: 'He fell so hard that he cut his head wide open.', anim: 'drop' },
-        { t: 'line', x: "Thankfully, the doctors were able to save him. But even the accident wasn’t enough to change him." },
-        { t: 'line', x: 'The boy got better and ran right out of the hospital, still unafraid of falling or getting hurt.' },
-        { t: 'line', x: 'But as the boy grew older, something changed.' },
-        { t: 'line', x: 'As his voice got deeper and his arms got bigger, his spirit grew smaller.', anim: 'shrink' },
-        { t: 'line', x: 'Now the boy was afraid of falling.', anim: 'hold' },
-        { t: 'line', x: 'He was so afraid of falling that he would only run alone.' },
-        { t: 'line', x: 'He would hide the stories he wrote, and cover up the poems he scribbled.' },
-        { t: 'line', x: 'His friends called him selfish. His demons called him weak.' },
-        { t: 'line', x: 'In his quiet desperation, the boy decided to change.' },
-        { t: 'line', x: "If he couldn’t step into the light, he would carry others into it.", anim: 'catch' },
-        { t: 'line', x: 'So he picked up a pen, sat in front of his keyboard, and wrote.' },
-        { t: 'line', x: 'He wrote for companies, and he wrote for non-profits.' },
-        { t: 'line', x: 'He took the words of founders and CEOs, and made them heard.' },
-        { t: 'line', x: 'Once, he told a story that 3.7 million people stopped to read.' },
-        { t: 'line', x: 'He gave the whole world the courage he could never find for himself.' },
-        { t: 'reveal', x: "Hello. My name is Ali, and I’m the boy in the story.", anim: 'reveal' }
+        { t: 'line', x: 'Once upon a time, there was a mischievous 9-year-old boy.' },
+        { t: 'line', x: 'He’d ring doorbells and run away.' },
+        { t: 'line', x: 'One day, running downhill in a pair of oversized sunglasses, he fell.' },
+        { t: 'line', x: 'The boy fell so hard, he cut his head wide open.', anim: 'drop' },
+        { t: 'line', x: 'The doctors saved him and he ran right out of the hospital.\nStill fearless.' },
+        { t: 'line', x: 'But as his voice got deeper and his arms got bigger, the boy’s spirit grew smaller.', anim: 'shrink' },
+        { t: 'line', x: 'Now, the fall scared him. He was afraid of people laughing at him.', anim: 'hold' },
+        { t: 'line', x: 'So, to save himself, he started hiding.' },
+        { t: 'line', x: 'He hid the stories he wrote, and the poems he scribbled.' },
+        { t: 'line', x: 'Then one day, the brave boy decided to change. He thought…\nIf he couldn’t step into the light, he would carry others into it.', anim: 'catch' },
+        { t: 'line', x: 'He helped CEOs and founders share their brilliant ideas with the world.' },
+        { t: 'line', x: 'Once, he wrote a story that ⟦3.7 million people⟧ stopped to read.' },
+        { t: 'line', x: 'In other people’s voices, he found his own.' },
+        { t: 'reveal', x: 'Hello! My name is Ali, and I’m the boy in the story.', anim: 'reveal' }
       ];
 
       var stage = document.getElementById('stage');
@@ -712,7 +711,8 @@
         }
         var cls = 'beat-content ' + (beat.t === 'reveal' ? 'reveal' : 'line');
         if (beat.anim) cls += ' anim-' + beat.anim;
-        return '<div class="beat"><div class="' + cls + '">' + esc(beat.x) + '</div></div>';
+        var html = esc(beat.x).replace(/\n/g, '<br>').replace(/\u27e6/g, '<span class="hl">').replace(/\u27e7/g, '</span>');
+        return '<div class="beat"><div class="' + cls + '">' + html + '</div></div>';
       }
 
       function render(idx) {
