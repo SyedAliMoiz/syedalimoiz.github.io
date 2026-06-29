@@ -709,6 +709,10 @@
         progress.style.opacity = ''; // show 100% on the reveal — the carousel ends here
         if (isHinge) { hint.textContent = 'continue'; hint.classList.remove('gone'); }
         else if (idx > 0) { hint.classList.add('gone'); }
+        // The reveal "steps into the light": warm the screen to cream for this
+        // beat only; the reader's chosen theme is restored on the page / on back.
+        if (isHinge) { document.body.classList.add('inverted'); }
+        else { applyTheme(localStorage.getItem('theme')); }
       }
 
       function next() {
@@ -763,6 +767,10 @@
         progress.style.opacity = '0';
         setTimeout(function () {
           document.body.classList.add('reading');
+          // restore the reader's theme for the page, snapped instantly while hidden
+          var _bt = document.body.style.transition; document.body.style.transition = 'none';
+          applyTheme(localStorage.getItem('theme')); void document.body.offsetWidth;
+          document.body.style.transition = _bt;
           stage.style.opacity = '';
           page.classList.remove('hidden');
           void page.offsetWidth; // commit opacity:0 before fading in
@@ -784,6 +792,7 @@
         setTimeout(function () {
           document.body.classList.remove('reading');
           page.classList.add('hidden');
+          document.body.classList.add('inverted'); // back on the reveal — restore the light
         }, 340);
         // we remain on the reveal hinge (the last carousel beat)
       }
