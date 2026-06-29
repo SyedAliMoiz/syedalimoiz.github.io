@@ -682,33 +682,6 @@
       function build(beat) {
         // Outer .beat owns the enter/exit fade; inner .beat-content carries the
         // signature animations, so the two never collide.
-        if (beat.t === 'wall') {
-          return '<div class="beat"><div class="beat-content wall">' +
-            '<div class="wall-head">Here\'s everything else that was in the drawer.</div>' +
-            '<div class="stats">' +
-              '<div class="stat"><span class="num">9M+</span><span class="cap">views written</span></div>' +
-              '<div class="stat"><span class="num">40%</span><span class="cap">landing page conversion</span></div>' +
-              '<div class="stat"><span class="num">$215k+</span><span class="cap">earned for clients</span></div>' +
-              '<div class="stat"><span class="num">1,750%</span><span class="cap">follower growth</span></div>' +
-            '</div>' +
-            '<div class="creds">' +
-              '<div>Psychology, IBA Karachi &middot; Dean\'s List, five semesters</div>' +
-              '<div>Thesis graded 93/100 &middot; a perfect 9 on IELTS listening</div>' +
-              '<div>Creative writing: A, commended</div>' +
-              '<div>Certified in AI prompting by Vanderbilt &amp; IBM</div>' +
-            '</div>' +
-          '</div></div>';
-        }
-        if (beat.t === 'cta') {
-          return '<div class="beat"><div class="beat-content cta">' +
-            '<div class="cta-head">Let\'s get to work.</div>' +
-            '<div class="cta-sub">Say &lsquo;hi&rsquo; here:</div>' +
-            '<div class="links">' +
-              '<a href="mailto:syedalimoiz@gmail.com">Email</a>' +
-              '<a href="https://linkedin.com/in/syedalimoiz" target="_blank" rel="noopener">LinkedIn</a>' +
-            '</div>' +
-          '</div></div>';
-        }
         var cls = 'beat-content ' + (beat.t === 'reveal' ? 'reveal' : 'line');
         if (beat.anim) cls += ' anim-' + beat.anim;
         var html = esc(beat.x).replace(/\n/g, '<br>').replace(/\u27e6/g, '<span class="hl">').replace(/\u27e7/g, '</span>');
