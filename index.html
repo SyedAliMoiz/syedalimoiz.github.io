@@ -95,7 +95,7 @@
 
     /* ---- The reveal stage ---- */
     #stage {
-      width: min(92vw, 40rem);
+      width: min(92vw, 46rem);
       max-height: 86dvh;
       text-align: center;
       user-select: none;
@@ -119,9 +119,9 @@
     }
 
     .reveal {
-      font-size: clamp(1.7rem, 1.2091rem + 2.1818vw, 2.9rem);
-      font-weight: 500;
-      line-height: 1.3;
+      font-size: clamp(2.1rem, 1.45rem + 2.9vw, 3.6rem);
+      font-weight: 640;
+      line-height: 1.18;
       letter-spacing: -0.015em; /* the hinge headline — tighten like a display line */
     }
 
@@ -135,7 +135,7 @@
     .anim-drop   { transform: translateY(-44px); transition: transform 0.6s cubic-bezier(0.3, 0.7, 0.3, 1); }
     .anim-hold   { transform: translateY(16px);  transition: transform 1.1s ease-out; }
     .anim-catch  { transform: translateY(-34px); transition: transform 0.9s cubic-bezier(0.34, 1.45, 0.5, 1); }
-    .anim-reveal { transform: scale(1.06); letter-spacing: 0.06em; transition: transform 1s cubic-bezier(0.2, 0.6, 0.2, 1), letter-spacing 1s ease; }
+    .anim-reveal { transform: scale(1.14); letter-spacing: 0.1em; transition: transform 1s cubic-bezier(0.2, 0.6, 0.2, 1), letter-spacing 1s ease; }
     .anim-shrink { transform: scale(1); transition: transform 0.7s ease 0.45s; }
     .beat.in .anim-drop,
     .beat.in .anim-hold,
@@ -145,6 +145,8 @@
     /* Phrase-level shrink (Ali): ONLY the wrapped words shrink, not the whole card */
     .shrink-word { display: inline-block; transition: font-size 1s cubic-bezier(0.4, 0, 0.2, 1) 0.5s; }
     .beat.in .shrink-word { font-size: 0.6em; }
+    /* Emphasis: a beat phrase larger + bolder ("he fell…", "He thought…") */
+    .emph { font-size: 1.32em; font-weight: 580; }
 
     /* ---- Hall of Fame "drawer": stats and credentials transition in, staggered ---- */
     .wall .stat, .wall .creds > div { opacity: 0; transform: translateY(10px); transition: opacity 0.5s ease, transform 0.5s ease; }
@@ -532,8 +534,8 @@
   <noscript>
     <div class="fallback">
       <p>Once upon a time, there was a mischievous 9-year-old boy who’d ring doorbells and run away. One day, running downhill in a pair of oversized sunglasses, he fell so hard he cut his head wide open. The doctors saved him, and he ran right out of the hospital, still fearless.</p>
-      <p>But as his voice got deeper and his climb got steeper, the boy’s spirit got smaller. Now the fall made him scared: he was afraid of people laughing at him. So, to save himself, he started hiding. He hid the stories he wrote, and the poems he scribbled.</p>
-      <p>Then one day, the brave boy decided to change. If he couldn’t step into the light, he would carry others into it. He helped CEOs and founders share their ideas with the world. Once, he wrote a story that 3.7 million people stopped to read. By helping leaders find their voice, he found his own.</p>
+      <p>But as his voice got deeper and his climb got steeper, the boy’s spirit got smaller. Now he was afraid of falling: of people laughing at him. So, to save himself, he started hiding. He hid the stories he wrote, and the poems he scribbled.</p>
+      <p>Then one day, the brave boy decided to change. If he couldn’t step into the light, he would carry others into it. He helped CEOs and founders share their ideas with the world. Once, he wrote a story that 3.7 million people stopped to read. And somewhere in their voices, he found his own.</p>
       <p>Hello. My name is Ali, and I’m the boy in the story. I grew up to be the person founders hire when they have something to say and can’t find the words. This page is the first time I’ve done it for myself.</p>
       <p>People never tell you the real reason they want something. It hides under the reason they give. My whole job is finding it, and saying it back so plainly that people feel understood.</p>
       <p>I wrote the opt-in page for a US finance publisher that converted at 40%, while most landing pages never crack 15%. Founders and companies have earned more than 15,000 from words I wrote. A therapist read what I’d written about her work, and cried, because it was a clearer version of her own voice.</p>
@@ -615,17 +617,17 @@
       var beats = [
         { t: 'line', x: 'Once upon a time, there was a mischievous 9-year-old boy.' },
         { t: 'line', x: 'For fun, he’d ring doorbells and run away.' },
-        { t: 'line', x: 'One day, running downhill, wearing a pair of oversized sunglasses\nhe fell…' },
+        { t: 'line', x: 'One day, running downhill,\nwearing a pair of oversized sunglasses\n⟪he fell…⟫' },
         { t: 'line', x: 'The boy fell so hard,\nhe cut his head wide open.', anim: 'drop' },
         { t: 'line', x: 'Thankfully, the doctors saved him.\nBut he ran right out of the hospital.\nStill fearless.' },
-        { t: 'line', x: 'But as his voice got deeper,\nand his climb got steeper,\nthe boy’s ⟨spirit got smaller⟩.' },
-        { t: 'line', x: 'Now, the fall made him scared.\nHe was afraid of people laughing at him.', anim: 'hold' },
-        { t: 'line', x: 'So, to save himself, he started hiding…\nHe hid the stories he wrote, and the poems he scribbled.' },
-        { t: 'line', x: 'Then, one day, the brave boy decided to change.\nHe thought…' },
+        { t: 'line', x: 'But as his voice got deeper,\nand his climb got steeper,\nthe boy’s spirit got ⟨smaller⟩.' },
+        { t: 'line', x: 'Now, he was afraid of falling.\nHe was afraid of people laughing at him.', anim: 'hold' },
+        { t: 'line', x: 'So, to save himself, he started hiding…\nHe hid the stories he wrote,\nand the poems he scribbled.' },
+        { t: 'line', x: 'Then, one day,\nthe brave boy decided to change.\n⟪He thought…⟫' },
         { t: 'line', x: 'If he couldn’t step into the light,\nhe would carry others into it.', anim: 'catch' },
-        { t: 'line', x: 'He helped CEOs and founders share\ntheir brilliant ideas\nwith the world.' },
+        { t: 'line', x: 'He helped CEOs and founders\nshare their brilliant ideas with the world.' },
         { t: 'line', x: 'Once, he wrote a story\nthat ⟦3.7 million people⟧\nstopped to read.' },
-        { t: 'line', x: 'By helping leaders find their voice,\nthe boy found his own.' },
+        { t: 'line', x: 'And somewhere in their voices,\nhe found his own.' },
         { t: 'reveal', x: 'Hello! My name is Ali, and I’m the boy in the story.', anim: 'reveal' }
       ];
 
@@ -689,7 +691,7 @@
         // signature animations, so the two never collide.
         var cls = 'beat-content ' + (beat.t === 'reveal' ? 'reveal' : 'line');
         if (beat.anim) cls += ' anim-' + beat.anim;
-        var html = esc(beat.x).replace(/\n/g, '<br>').replace(/\u27e6/g, '<span class="hl">').replace(/\u27e7/g, '</span>').replace(/\u27e8/g, '<span class="shrink-word">').replace(/\u27e9/g, '</span>');
+        var html = esc(beat.x).replace(/\n/g, '<br>').replace(/\u27e6/g, '<span class="hl">').replace(/\u27e7/g, '</span>').replace(/\u27e8/g, '<span class="shrink-word">').replace(/\u27e9/g, '</span>').replace(/\u27ea/g, '<span class="emph">').replace(/\u27eb/g, '</span>');
         return '<div class="beat"><div class="' + cls + '">' + html + '</div></div>';
       }
 
@@ -704,7 +706,7 @@
         // The reveal is a standalone hinge: the story is done, so no progress bar,
         // and a distinct quiet cue to cross over (not the same "tap to continue").
         var isHinge = (idx === beats.length - 1);
-        progress.style.opacity = isHinge ? '0' : '';
+        progress.style.opacity = ''; // show 100% on the reveal — the carousel ends here
         if (isHinge) { hint.textContent = 'continue'; hint.classList.remove('gone'); }
         else if (idx > 0) { hint.classList.add('gone'); }
       }
