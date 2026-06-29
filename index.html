@@ -390,10 +390,10 @@
       animation: wordFall 1.15s cubic-bezier(0.32, 0.9, 0.4, 1) 0.65s both;
     }
     @keyframes wordFall {
-      0%   { opacity: 0; transform: translate(-0.6em, -0.9em); }  /* up and to the left, unseen */
-      42%  { opacity: 1; }                                        /* visible as it nears the line */
-      64%  { transform: translate(-0.6em, 0); }                   /* landed left of its slot, a gap before "on" */
-      100% { opacity: 1; transform: translate(0, 0); }            /* scoots right, tucking into place */
+      0%   { opacity: 0; transform: translateY(-0.85em); }  /* directly above its slot, unseen */
+      45%  { opacity: 1; }                                  /* fades in as it falls */
+      82%  { transform: translateY(0.05em); }               /* a hair past the line */
+      100% { opacity: 1; transform: translateY(0); }        /* settles into place */
     }
 
     /* ---- Chrome: invert, progress, hint ---- */
@@ -616,7 +616,7 @@
         { t: 'line', x: 'He would hide the stories he wrote, and cover up the poems he scribbled.' },
         { t: 'line', x: 'His friends called him selfish. His demons called him weak.' },
         { t: 'line', x: 'In his quiet desperation, the boy decided to change.' },
-        { t: 'line', x: "If he couldn’t step into the light, he would carry others into it." },
+        { t: 'line', x: "If he couldn’t step into the light, he would carry others into it.", anim: 'catch' },
         { t: 'line', x: 'So he picked up a pen, sat in front of his keyboard, and wrote.' },
         { t: 'line', x: 'He wrote for companies, and he wrote for non-profits.' },
         { t: 'line', x: 'He took the words of founders and CEOs, and made them heard.' },
