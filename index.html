@@ -377,7 +377,7 @@
       letter-spacing: -0.01em; /* italic needs less negative tracking than the loud numerals */
       color: var(--muted);
     }
-    .proof .proof-item:last-child { margin-top: 0.6em; } /* Fix #8: air around "she cried" */
+    .proof .proof-item:last-child { margin-top: 1.7em; padding-top: 1.5em; border-top: 1px solid color-mix(in srgb, var(--muted) 26%, transparent); } /* Fix #6/#8: lift "she cried" out of the size race — a standalone peer with air above */
     .proof-item p {
       font-size: var(--step-0);
       line-height: 1.55;
