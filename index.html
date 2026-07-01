@@ -410,6 +410,11 @@
       letter-spacing: -0.015em; /* display headline band */
     }
 
+    /* Fix #5: a quiet selectivity signal before the ask (premium, not needy) */
+    .selectivity { font-size: var(--step-0); font-style: italic; color: var(--muted); margin-top: 1.2em; }
+    /* Fix #20: a deliberate full stop — the piece ends on a signature, not a void */
+    .signoff { margin-top: var(--space-xl); font-size: var(--step-1); color: var(--muted); letter-spacing: 0.01em; }
+
     /* gentle scroll-reveal, progressive enhancement (only when JS adds .js) */
     #page.js .psec { opacity: 0; transform: translateY(22px); transition: opacity 0.7s ease, transform 0.7s ease; }
     #page.js .psec.seen { opacity: 1; transform: none; }
@@ -635,13 +640,15 @@
       <section class="psec close">
         <p class="close-line">If you’ve got something to say and you think nobody can hear you, reach out.</p>
         <p class="close-line accent">And I know exactly how to get you heard.</p>
+        <p class="selectivity">I work with a handful of founders at a time.</p>
         <p class="cta-head">Let’s get to work.</p>
         <div class="cta-sub">Have a look, or say hi:</div>
         <div class="links">
           <a href="https://docs.google.com/document/d/18RKoyBO-ca6TPP_vjRg73B7-TQQcI6fxhWaEYHUh-mk/edit?usp=sharing" target="_blank" rel="noopener">See my work</a>
-          <a href="mailto:syedalimoiz@gmail.com">Email</a>
+          <a href="mailto:syedalimoiz@gmail.com?subject=Something%20to%20say">Email</a>
           <a href="https://linkedin.com/in/syedalimoiz" target="_blank" rel="noopener">LinkedIn</a>
         </div>
+        <p class="signoff">— Ali</p>
       </section>
     </div>
   </div>
