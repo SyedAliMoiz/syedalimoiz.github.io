@@ -290,11 +290,34 @@
     }
 
     .page-inner {
-      max-width: 34rem;
+      max-width: 36rem;
       margin: 0 auto;
       padding: var(--space-3xl) var(--space-m);
       text-align: center;
+      position: relative;
     }
+    /* Act 3 — the light carries in: the reveal's warm spotlight bleeds into the
+       top of the page (the "rise"), then fades as you scroll into the proof.
+       Lives on the scrolling content so it recedes with the story, not the viewport. */
+    .page-inner::before {
+      content: "";
+      position: absolute;
+      top: -2%;
+      left: 50%;
+      transform: translateX(-50%);
+      width: min(120vw, 900px);
+      height: 680px;
+      background: radial-gradient(50% 46% at 50% 32%,
+        rgba(247,240,232,0.11) 0%,
+        rgba(214,176,106,0.055) 42%,
+        rgba(247,240,232,0) 72%);
+      z-index: -1;
+      pointer-events: none;
+    }
+    /* Fix #20: the photo pair breaks wider than the prose column on desktop, so the
+       whitespace reads as deliberate structure, not leftover canvas. Clamped to the
+       viewport so it never breaks mobile. */
+    .boyreal { width: min(46rem, 92vw); margin-inline: auto; }
     .psec { margin-bottom: var(--space-section); }
     .psec:last-child { margin-bottom: 0; }
     /* Intentional rhythm: a deliberate breath before the emotional close + CTA.
