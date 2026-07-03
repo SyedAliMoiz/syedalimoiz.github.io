@@ -585,6 +585,27 @@
       #invert:hover { transform: none; }
     }
   </style>
+
+  <style id="atmos-css">
+  /* Chunk 1 — carousel atmosphere: the void stops being flat; warmth swells and
+     drains with the story's emotional arc (MID intensity, softened ambient glow).
+     Words-first: these are z-index 0/1 behind the stage (z2); text never dims. */
+  #atmos-glow,#atmos-cool,#atmos-grain{position:fixed;inset:0;pointer-events:none;}
+  #atmos-glow{z-index:0;background:radial-gradient(96% 90% at 50% 42%,rgba(235,184,112,0.34),rgba(216,170,98,0.12) 46%,transparent 80%);opacity:var(--glow,0.4);transition:opacity 1.3s ease;}
+  #atmos-cool{z-index:0;background:radial-gradient(122% 118% at 50% 36%,rgba(20,27,43,0) 26%,rgba(17,23,38,0.92) 100%);opacity:var(--cool,0);transition:opacity 1.3s ease;}
+  #atmos-grain{z-index:1;background-image:url("data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20width='170'%20height='170'%3E%3Cfilter%20id='n'%3E%3CfeTurbulence%20type='fractalNoise'%20baseFrequency='0.8'%20numOctaves='2'%20stitchTiles='stitch'/%3E%3C/filter%3E%3Crect%20width='100%25'%20height='100%25'%20filter='url(%23n)'/%3E%3C/svg%3E");background-size:170px 170px;mix-blend-mode:soft-light;opacity:0.055;}
+  body{--glow:0.4;--cool:0;}
+  body[data-mood="open"]   {--glow:0.72;--cool:0.02;}
+  body[data-mood="tense"]  {--glow:0.39;--cool:0.14;}
+  body[data-mood="closing"]{--glow:0.19;--cool:0.34;}
+  body[data-mood="dark"]   {--glow:0.04;--cool:0.52;}
+  body[data-mood="lift"]   {--glow:0.41;--cool:0.17;}
+  body[data-mood="warm"]   {--glow:0.64;--cool:0.06;}
+  body[data-mood="light"]  {--glow:0.78;--cool:0;}
+  /* Act 3 is its own world (it has its own warm light-composition): fade atmosphere out. */
+  body.reading #atmos-glow, body.reading #atmos-cool, body.reading #atmos-grain{opacity:0 !important;transition:opacity 0.6s ease;}
+  @media (prefers-reduced-motion: reduce){ #atmos-glow,#atmos-cool{transition:none;} }
+  </style>
 </head>
 <body>
   <noscript>
@@ -919,6 +940,13 @@
         start();
       }
     })();
+  </script>
+
+  <div id="atmos-glow"></div><div id="atmos-cool"></div><div id="atmos-grain"></div>
+
+  <script>
+  /* Chunk 1 driver: read the progress bar (idx-agnostic, closure-safe) -> set mood. */
+  (function(){var moods=['open','open','tense','tense','open','closing','closing','dark','lift','warm','light','light','light'];var N=moods.length,prog=document.getElementById('progress'),b=document.body;function upd(){var pct=parseFloat((prog.style.width||'').replace('%',''))||0;var idx=Math.round(pct/100*N)-1;if(idx<0)idx=0;if(idx>N-1)idx=N-1;b.dataset.mood=moods[idx];}if(prog){new MutationObserver(upd).observe(prog,{attributes:true,attributeFilter:['style']});upd();}})();
   </script>
 </body>
 </html>
