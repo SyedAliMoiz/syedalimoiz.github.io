@@ -617,6 +617,46 @@
     .anim-recede,.beat.in .anim-recede{opacity:1 !important;transition:none !important;}
   }
   </style>
+
+  <style id="candidates-css">
+  /* --- consolidated working effects (candidates + Ali adjustments) --- */
+  /* #3: "smaller." shrinks via TRANSFORM so the rest of the line never moves */
+  .shrink-word{display:inline-block;font-size:1em !important;transform-origin:left center;
+    transition:transform .8s cubic-bezier(.4,0,.2,1) .9s;}
+  .beat.in .shrink-word{font-size:1em !important;transform:scale(.78);}
+  /* #4: mute ONLY hiding / stories / poems (not the whole line) */
+  .mute-word{transition:opacity .95s ease .45s;}
+  .beat.in .mute-word{opacity:.42;}
+  /* period runs away (beat 1) */
+  .runaway{display:inline-block;}
+  .beat.in .runaway{animation:runaway 2.4s cubic-bezier(.5,.05,.4,1) .8s forwards;}
+  @keyframes runaway{0%{transform:translate(0,0);opacity:1;}
+    20%{transform:translate(.9em,-.10em);}32%{transform:translate(1.15em,0);}
+    52%{transform:translate(2.5em,-.10em);}64%{transform:translate(2.8em,0);opacity:.82;}
+    100%{transform:translate(6.5em,0);opacity:0;}}
+  /* "open" splits — only EN slides right, space before OP preserved (beat 3) */
+  .op-half{display:inline-block;}
+  .en-half{display:inline-block;transition:transform .85s cubic-bezier(.3,.7,.3,1) .5s;}
+  .beat.in .en-half{transform:translateX(.5em);}
+  /* beat 9 only ("warm" mood is unique to it): the ambient light MOVES to the word "light".
+     Center glow dims; a soft diffuse warm pool blooms at the word's position (~61% across,
+     first-line height). Crossfade = the light appears to travel to the word. Screen-robust (%). */
+  #atmos-focus{position:fixed;inset:0;z-index:0;pointer-events:none;opacity:0;
+    background:radial-gradient(58% 52% at 61% 45%,rgba(236,186,114,0.36),rgba(216,170,98,0.11) 44%,transparent 74%);
+    transition:opacity 1.5s ease;}
+  body[data-mood="warm"]{--glow:0.22;}
+  body[data-mood="warm"] #atmos-focus{opacity:1;}
+  /* reveal fix: kill the scale so the text never reflows 3->2 lines (beat 12) */
+  .anim-reveal{transform:none !important;letter-spacing:normal !important;}
+  /* reveal font (Ali disliked the heavy bold): lighter, more refined weight — FIRST PASS */
+  .reveal{font-weight:460 !important;letter-spacing:-0.004em !important;}
+  @media (prefers-reduced-motion: reduce){
+    .beat.in .runaway{animation:none;} .runaway{opacity:1;}
+    .en-half,.beat.in .en-half{transform:none;transition:none;}
+    #atmos-focus{transition:none;}
+    .beat.in .shrink-word{transform:none;} .beat.in .mute-word{opacity:1;}
+  }
+  </style>
 </head>
 <body>
   <noscript>
@@ -719,13 +759,13 @@
     (function () {
       var beats = [
         { t: 'line', x: 'Once upon a time, there was a mischievous 9-year-old boy.' },
-        { t: 'line', x: 'For fun, he’d ring doorbells and run away.' },
+        { t: 'line', x: 'For fun, he’d ring doorbells and run away❰.❱' },
         { t: 'line', x: 'One day, running downhill,\nwearing a pair of oversized sunglasses\n⟪he fell…⟫' },
         { t: 'line', x: 'The boy fell so hard,\nhe cut his head wide open.', anim: 'drop' },
         { t: 'line', x: 'Thankfully, the doctors saved him.\nBut he ran right out of the hospital.\nStill fearless.' },
         { t: 'line', x: 'But as his voice got deeper,\nand his climb got steeper,\nthe boy’s spirit got ⟨smaller.⟩' },
         { t: 'line', x: 'Now, he was afraid of falling.\nHe was afraid of people laughing at him.', anim: 'hold' },
-        { t: 'line', x: 'So, to save himself, he started hiding…\nHe hid the stories he wrote,\nand the poems he scribbled.', anim: 'recede' },
+        { t: 'line', x: 'So, to save himself, he started ❪hiding❫…\nHe hid the ❪stories❫ he wrote,\nand the ❪poems❫ he scribbled.' },
         { t: 'line', x: 'Then, one day,\nthe boy grew up and decided to change.\n⟪He thought…⟫' },
         { t: 'line', x: 'If he couldn’t step into the light,\nhe would carry others into it.', anim: 'catch' },
         { t: 'line', x: 'He helped CEOs and founders\nreach ⟦9 million people⟧,\nacross 10+ industries.' },
@@ -793,7 +833,7 @@
         // signature animations, so the two never collide.
         var cls = 'beat-content ' + (beat.t === 'reveal' ? 'reveal' : 'line');
         if (beat.anim) cls += ' anim-' + beat.anim;
-        var html = esc(beat.x).replace(/\n/g, '<br>').replace(/\u27e6/g, '<span class="hl">').replace(/\u27e7/g, '</span>').replace(/\u27e8/g, '<span class="shrink-word">').replace(/\u27e9/g, '</span>').replace(/\u27ea/g, '<span class="emph">').replace(/\u27eb/g, '</span>');
+        var html = esc(beat.x).replace(/\n/g, '<br>').replace(/\u27e6/g, '<span class="hl">').replace(/\u27e7/g, '</span>').replace(/\u27e8/g, '<span class="shrink-word">').replace(/\u27e9/g, '</span>').replace(/\u27ea/g, '<span class="emph">').replace(/\u27eb/g, '</span>').replace(/\u2770/g,'<span class="runaway">').replace(/\u2771/g,'</span>').replace(/\u2772/g,'<span class="op-half">').replace(/\u2773/g,'</span>').replace(/\u2774/g,'<span class="en-half">').replace(/\u2775/g,'</span>').replace(/\u2768/g,'<span class="spotword">').replace(/\u2769/g,'</span>').replace(/\u276a/g,'<span class="mute-word">').replace(/\u276b/g,'</span>');
         return '<div class="beat"><div class="' + cls + '">' + html + '</div></div>';
       }
 
@@ -953,7 +993,7 @@
     })();
   </script>
 
-  <div id="atmos-glow"></div><div id="atmos-cool"></div><div id="atmos-grain"></div>
+  <div id="atmos-glow"></div><div id="atmos-focus"></div><div id="atmos-cool"></div><div id="atmos-grain"></div>
 
   <script>
   /* Chunk 1 driver: read the progress bar (idx-agnostic, closure-safe) -> set mood. */
