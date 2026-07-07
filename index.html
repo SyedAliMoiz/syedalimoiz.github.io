@@ -429,6 +429,19 @@
       font-size: 0.78rem;
       color: var(--muted);
     }
+
+    .psec.story {
+      max-width: 46rem;
+      position: relative;
+      padding: var(--space-xl) var(--space-l);
+    }
+    .psec.story::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: var(--surface);
+      border-radius: 16px;
+      z-index: -1;
     }
 
     .close-line {
