@@ -120,6 +120,15 @@
       transition: opacity 1.4s ease 0.25s, transform 1.7s cubic-bezier(0.2,0.6,0.2,1) 0.25s;
     }
     body.lit #portrait { opacity: 1; transform: translate(-50%, calc(-50% - 6.5rem)) scale(1); }
+    body.reading #portrait {
+      opacity: 0;
+      transform: translate(-50%, calc(-50% - 4rem)) scale(0.88);
+      transition: opacity 1.6s ease, transform 1.8s ease;
+    }
+    body.reading #spotlight {
+      opacity: 0;
+      transition: opacity 1.2s ease;
+    }
     body.lit #stage { transform: translateY(6.2rem); }
     .beat {
       opacity: 0;
@@ -869,21 +878,22 @@
         mode = 'page';
         playTick(740);
         hint.classList.add('gone');
-        // opacity-only cross-fade: the carousel fades out, then the page fades in
         stage.style.opacity = '0';
         progress.style.opacity = '0';
         setTimeout(function () {
           document.body.classList.add('reading');
-          document.body.classList.remove('lit'); // light fades; the page is its own world
           stage.style.opacity = '';
           page.classList.remove('hidden');
-          void page.offsetWidth; // commit opacity:0 before fading in
+          void page.offsetWidth;
           page.classList.add('shown');
           page.scrollTop = 0;
-          var secs = page.querySelectorAll('.psec'); // reveal what’s in view; IO does the rest
+          var secs = page.querySelectorAll('.psec');
           if (secs[0]) secs[0].classList.add('seen');
           if (secs[1]) secs[1].classList.add('seen');
           scrollcue.classList.remove('gone');
+          setTimeout(function () {
+            document.body.classList.remove('lit');
+          }, 900);
         }, 340);
       }
 
