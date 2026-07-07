@@ -299,7 +299,6 @@
     }
 
     .page-inner {
-      max-width: 36rem;
       margin: 0 auto;
       padding: var(--space-3xl) var(--space-m);
       text-align: center;
@@ -326,9 +325,9 @@
     /* Fix #20: the photo pair breaks wider than the prose column on desktop, so the
        whitespace reads as deliberate structure, not leftover canvas. Clamped to the
        viewport so it never breaks mobile. */
-    .boyreal { width: min(46rem, 92vw); margin-inline: auto; }
-    .psec { margin-bottom: var(--space-section); }
+    .psec { max-width: 36rem; margin-inline: auto; margin-bottom: var(--space-section); }
     .psec:last-child { margin-bottom: 0; }
+    .psec.hero { margin-bottom: var(--space-3xl); }
     /* Intentional rhythm: a deliberate breath before the emotional close + CTA.
        padding (not margin) so it ADDS to the section gap instead of collapsing into it. */
     .psec.close { padding-top: var(--space-l); } /* F3: gentler CTA breath (was xl) */
