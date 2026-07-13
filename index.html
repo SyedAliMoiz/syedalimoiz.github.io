@@ -825,7 +825,7 @@
   <!-- Phase 3: the scrollable, designed page (shown after the reveal hinge) -->
 
   <!-- Devil kid transition element — starts where portrait was, slides to final position -->
-  <img id="devil-transit" class="hidden md:block" src="img/devil-transit.webp" alt=""
+  <img id="devil-transit" class="hidden xl:block" src="img/devil-transit.webp" alt=""
        style="position:fixed; z-index:100; pointer-events:none; opacity:0;
               top:50%; left:50%; transform:translate(-50%, calc(-50% - 6.5rem)) rotate(0deg);
               width: clamp(180px, 22vw, 280px);
@@ -859,7 +859,7 @@
          style="background: radial-gradient(60% 50% at 30% 55%, rgba(196,112,74,0.06) 0%, rgba(214,176,106,0.025) 45%, transparent 75%);"></div>
 
     <h1 class="font-display font-extrabold relative z-10 type-hero text-balance" style="max-width: 75vw;">
-      <img src="img/devil-final.webp" alt="" class="absolute pointer-events-none hidden md:block" id="devil-final" style="z-index: -1; transform: rotate(22deg); width: clamp(45px, 5.5vw, 80px); top: -1vw; right: 7vw; left: auto; -webkit-mask-image: linear-gradient(to bottom, black 50%, transparent 95%); mask-image: linear-gradient(to bottom, black 50%, transparent 95%);">
+      <img src="img/devil-final.webp" alt="" class="absolute pointer-events-none hidden xl:block" id="devil-final" style="z-index: -1; transform: rotate(22deg); width: clamp(45px, 5.5vw, 80px); top: -1vw; right: 7vw; left: auto; -webkit-mask-image: linear-gradient(to bottom, black 50%, transparent 95%); mask-image: linear-gradient(to bottom, black 50%, transparent 95%);">
       I grew up to be the person founders hire when they have something to say and can't find <span class="text-gold">the words.</span>
     </h1>
   </section>
@@ -1251,7 +1251,7 @@
       var scrollcue = document.getElementById('scrollcue');
       var mode = 'carousel';
       var skipBtn = null;
-      setTimeout(function() { skipBtn = document.getElementById('skip'); if(skipBtn) skipBtn.addEventListener('click', function(e) { e.stopPropagation(); mode = 'page'; document.body.classList.add('reading'); document.getElementById('stage').style.display='none'; document.getElementById('progress').style.display='none'; document.getElementById('hint').style.display='none'; document.getElementById('back').style.display='none'; document.getElementById('invert').style.display='none'; document.getElementById('sound').style.display='none'; this.style.display='none'; var sp=document.getElementById('spotlight'); if(sp)sp.style.display='none'; var pt=document.getElementById('portrait'); if(pt)pt.style.display='none'; var p=document.getElementById('page'); p.classList.remove('hidden'); p.style.opacity='1'; p.classList.add('shown'); setupObservers(); var ag=document.querySelectorAll('#atmos-glow,#atmos-cool,#atmos-grain'); ag.forEach(function(e){e.style.display='none';}); }); }, 0); // 'carousel' (story + reveal hinge) or 'page' (scroll)
+      setTimeout(function() { skipBtn = document.getElementById('skip'); if(skipBtn) skipBtn.addEventListener('click', function(e) { e.stopPropagation(); mode = 'page'; document.body.style.transition='opacity 0.4s ease'; document.body.style.opacity='0'; setTimeout(function(){ document.body.classList.add('reading'); document.getElementById('stage').style.display='none'; document.getElementById('progress').style.display='none'; document.getElementById('hint').style.display='none'; document.getElementById('back').style.display='none'; document.getElementById('invert').style.display='none'; document.getElementById('sound').style.display='none'; this.style.display='none'; var sp=document.getElementById('spotlight'); if(sp)sp.style.display='none'; var pt=document.getElementById('portrait'); if(pt)pt.style.display='none'; var p=document.getElementById('page'); p.classList.remove('hidden'); p.style.opacity='1'; p.classList.add('shown'); setupObservers(); var ag=document.querySelectorAll('#atmos-glow,#atmos-cool,#atmos-grain'); ag.forEach(function(e){e.style.display='none';}); document.body.style.opacity='1'; }, 400); }); }, 0); // 'carousel' (story + reveal hinge) or 'page' (scroll)
       var i = 0;
       var busy = false;
 
