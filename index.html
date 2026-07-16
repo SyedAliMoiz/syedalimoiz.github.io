@@ -615,12 +615,12 @@
     #hint {
       position: fixed;
       left: 50%;
-      bottom: max(1.6rem, env(safe-area-inset-bottom));
+      bottom: max(4.5rem, calc(env(safe-area-inset-bottom) + 3rem));
       transform: translateX(-50%);
-      font-size: 0.78rem;
+      font-size: 0.85rem;
       letter-spacing: 0.12em;
       text-transform: uppercase;
-      color: var(--muted); /* Fix #9: the make-or-break instruction must be legible (was --meta, ~invisible) */
+      color: var(--cream);
       z-index: 20;
       transition: opacity 0.5s ease;
       animation: pulse 2.4s ease-in-out infinite;
